@@ -4,19 +4,22 @@ class Producto_model{
     function nuevoProducto($name, $price){
         global $db;
         $sql = "INSERT INTO `producto`(`id_producto`, `name`, `price`) VALUES (NULL,'$name','$price');";
-        $db->insert($sql);
+        $respuesta = $db->insert($sql);
+        return $respuesta;
     }
     
     function modificarProducto ($id_producto,$name, $price){
       global $db;
       $sql = "UPDATE `producto` SET `name` = '$name', `price` = '$price' WHERE `producto`.`id_producto` = $id_producto;";
-      $db->update($sql);
+      $respuesta = $db->update($sql);
+      return $respuesta;
   }
   
     function eliminarProducto($id_producto){
      global $db;
      $sql = "DELETE FROM `producto` WHERE `producto`.`id_producto` = $id_producto;";
-     $db->delete($sql);
+     $respuesta = $db->delete($sql);
+     return $respuesta;
 }
 
 function  verProductos(){
@@ -51,10 +54,4 @@ function  verProductos_price($price){
         }
     }
 }
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 ?>
