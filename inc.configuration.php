@@ -4,6 +4,6 @@
 	
 	$config["db"] = "constructora";
 	$config["dbuser"] = "root";
-	$config["dbpass"] = "jml";
+	$config["dbpass"] = "";
 	$config["dbhost"]="localhost";
     $config["dbEngine"]="MYSQL";
