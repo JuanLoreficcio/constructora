@@ -1,0 +1,28 @@
+<fieldset><legend>Listado de Productos</legend>
+    <table aling=center border=1 cellpadding=3 cellspacing=0 width="100%">
+        <tr>
+            <th with="20%" alling="center">Codigo</th>
+            <th with="20%" alling="center">Nombre Producto</th>
+            <th with="20%" alling="center">Precio Unitario</th>
+            <th with="20%" alling="center">Editar</th>
+            <th with="20%" alling="center">Borrar</th>
+        </tr>
+        <!-- START BLOCK : block_listado_productos -->
+        <tr>
+            <td>{var_list_cod}</td>
+            <td> {var_list_nombre}</td>
+            <td> {var_list_precio}</td>
+            <td><a href="index.php?action=Producto::editar_main&id={var_lis_cod}">Edit</a></td>
+            <td><a href="index.php?action=Producto::delete_main&id={var_lis_cod}">Eliminar</a></td>
+        </tr>
+        <!-- END BLOCK : block_listado_productos -->
+        
+        <!-- START BLOCK : block_no_listado_productos -->
+        <tr><td colspan=7 aling="center"> No hay productos cargados</td></tr>
+        <!-- END BLOCK : block_no_listado_productos -->
+    </table>	
+</fieldset>
+<div style="text-align: right">
+    <input alling=rigth type="button" onclick=" location.href='templates/nuevoProducto.html' " value="Nuevo producto" name="boton" />
+</div>
+        

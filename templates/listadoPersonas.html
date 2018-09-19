@@ -1,0 +1,31 @@
+<fieldset><legend>Listado de Personas</legend>
+    <table aling=center border=1 cellpadding=3 cellspacing=0 width="100%">
+        <tr>
+            <th with="20%" alling="center">Nombre y Apellido</th>
+            <th with="20%" alling="center">Direccion</th>
+            <th with="20%" alling="center">Correo Electronico</th>
+			<th with="20%" alling="center">Telefono</th>
+            <th with="20%" alling="center">Rol</th>
+            <th with="20%" alling="center">Editar</th>
+            <th with="20%" alling="center">Borrar</th>
+        </tr>
+        <!-- START BLOCK : block_listado_personas -->
+        <tr>
+            <td>{var_list_nam}</td>
+            <td> {var_list_direccion}</td>
+            <td> {var_list_email}</td>
+			<td> {var_list_tel}</td>
+			<td> {var_list_rol}</td>
+            <td><a href="index.php?action=Producto::editar_main&id={var_lis_cod}">Edit</a></td>
+            <td><a href="index.php?action=Producto::delete_main&id={var_lis_cod}">Eliminar</a></td>
+        </tr>
+        <!-- END BLOCK : block_listado_personas -->
+        
+        <!-- START BLOCK : block_no_listado_personas -->
+        <tr><td colspan=7 aling="center"> No hay Personas cargadas</td></tr>
+        <!-- END BLOCK : block_no_listado_personas -->
+    </table>	
+</fieldset>
+<div style="text-align: right">
+<input alling=right type="button" onclick=" location.href='templates/nuevaPersona.html' "  value="Nueva Persona" name="boton" />
+</div>

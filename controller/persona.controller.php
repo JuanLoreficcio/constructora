@@ -19,9 +19,32 @@ class Persona_Controller{
   }
     
     function verPersonas(){
+        $tpl = new TemplatePower("templates/listadoPersonas.html");
+        $tpl->prepare();
+        $tpl->gotoBlock("_ROOT");
+        
         $var_persona = new Persona_Model();
         $respuesta =  $var_persona->verPersonas();
-        return $respuesta;
+      
+        if($respuesta){
+            $tpl->gotoBlock("_ROOT");
+            foreach ($respuesta as $r){
+                $tpl->newBlock("block_listado_personas");
+                $tpl->assign("var_list_nam",$r["name"]);
+                $tpl->assign("var_list_direccion",$r["address"]);
+                $tpl->assign("var_list_email",$r["mail"]);
+                $tpl->assign("var_list_tel",$r["phone"]);
+                if($r["rol"] == cliente){
+                
+                $tpl->assign("var_list_rol","Cliente");
+                }else{
+                $tpl->assign("var_list_rol","Proveedor");
+                }
+            }
+        }else{
+            $tpl->newBlock("block_no_listado_personas");
+        }
+       return $tpl->getOutputContent();
     }
     
     function verPersonasRol($rol){
