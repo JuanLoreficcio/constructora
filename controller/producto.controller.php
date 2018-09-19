@@ -16,9 +16,26 @@ class Producto_Controller{
 }
 
 function  verProductos(){
+    $tpl = new TemplatePower("templates/listadoProducto.html");
+    $tpl->prepare();
+    $tpl->gotoBlock("_ROOT");
+    
     $var_producto = new Producto_model();
     $result =  $var_producto->verProductos();
-    return $result;
+    
+    if($result){
+        $tpl->gotoBlock("_ROOT");
+        foreach ($result as $r){
+            $tpl->newBlock("block_listado_productos");
+            $tpl->assign("var_list_cod",$r["id_producto"]);
+            $tpl->assign("var_list_nombre",$r["name"]);
+            $tpl->assign("var_list_precio",$r["price"]);
+        }
+    }else{
+        $tpl->newBlock("block_no_listado_productos");
+    }
+    
+    return $tpl->getOutputContent();
 }
 
 function verProductos_name($name){
@@ -31,10 +48,5 @@ function  verProductos_price($price){
     return $var_producto->verProductos_name($price);
     }
 }
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 ?>

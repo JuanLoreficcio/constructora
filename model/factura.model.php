@@ -26,27 +26,21 @@ class Factura_Model{
     
     function verFactura(){
        global $db; 
-       $sql = "SELECT id_factura, name,name,
-		FROM pelicula p, genero g 
-		WHERE p.id_genero = g.id_genero
-		ORDER BY ge_nombre";
+       $sql = "SELECT * FROM `factura` ORDER BY `id_factura`;";
        $respuesta = $db->query($sql);
        return $respuesta;
     }
     
-    function verFacturaPersona(){
+    function verFacturaPersona($id_persona){
        global $db; 
-       $sql = "SELECT id_factura, pe_nombre 
-		FROM pelicula p, genero g 
-		WHERE p.id_genero = g.id_genero
-		ORDER BY ge_nombre";
+       $sql = "SELECT * FROM `factura` WHERE `id_persona`='$id_persona' ORDER BY `id_factura`;";
        $respuesta = $db->query($sql);
        return $respuesta;
     }
     
-    function verFacturaFecha(){
+    function verFacturaFecha($fecha){
        global $db; 
-       $sql = "SELECT * FROM `factura` ORDER BY fecha";
+       $sql = "SELECT * FROM `factura`WHERE `fecha` = '$fecha' ORDER BY fecha;";
        $respuesta = $db->query($sql);
        return $respuesta;
     }
