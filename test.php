@@ -2,12 +2,6 @@
 include("inc.includes.php");
 $db = new MySQL($config["dbhost"],$config["dbuser"],$config["dbpass"],$config["db"]);
 
-/*$tipo = new Tipo_Controller();
-$result = $tipo->verTipo();
-foreach ($result as $t){
-    echo $t["name"];
-    echo "<br>";
-}*/
 $estado = new Estado_Controller();
 //MUESTRO TODO:
 $res = $estado->verEstado();
@@ -47,6 +41,5 @@ foreach ($res3 as $p) {
 }
 echo "<br>";
 echo "<br>";
-
 
 

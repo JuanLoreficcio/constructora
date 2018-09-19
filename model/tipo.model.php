@@ -2,32 +2,30 @@
 class Tipo_Model{
     function nuevoTipo($name){
         global $db;
-        $sql = "INSERT INTO `tipo` (`id_tipo`, `name`) VALUES (NULL, '$name');";
-        $result = $db->insert($sql);
-        return $result;
+        $sql="INSERT INTO `tipo` (`id_tipo`, `name`) VALUES (NULL, '$name');";
+        $respuesta = $db->insert($sql);
+        return $respuesta;
     }
+    
     function modificarTipo($id_tipo,$name){
         global $db;
-        $sql = "UPDATE `tipo` SET `name` = '$name' WHERE `tipo`.`id_tipo` = $id_tipo;";
-        $result = $db->update($sql);
-        return $result;
+        $sql="UPDATE `tipo` SET `name` = '$name' WHERE `tipo`.`id_tipo` = $id_tipo;";
+        $respuesta = $db->update($sql);
+        return $respuesta;
     }
+    
     function eliminarTipo($id_tipo){
         global $db;
-        $sql = "DELETE FROM `estado` WHERE `estado`.`id_estado` = $id_tipo;";
-        $result = $db->delete($sql);
-        return $result;
+        $sql="DELETE FROM `tipo` WHERE `tipo`.`id_tipo` = $id_tipo";
+        $respuesta = $db->delete($sql);
+        return $respuesta;
     }
+    
     function verTipo(){
         global $db;
-        $sql = "SELECT * FROM `tipo` ORDER BY name";
-        $result = $db->query($sql);
-        return $result;
+        $sql="SELECT * FROM `tipo` ORDER BY name";
+        $respuesta = $db->query($sql);
+        return $respuesta;
     }
 }
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
