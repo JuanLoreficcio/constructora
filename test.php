@@ -2,8 +2,8 @@
 include("inc.includes.php");
 $db = new MySQL($config["dbhost"],$config["dbuser"],$config["dbpass"],$config["db"]);
 
-$producto= new Producto_Controller();
-echo $producto->verProductos();
+$factura= new Factura_Controller();
+echo $factura->verFactura(1);
 
 /*$estado = new Estado_Controller();
 //MUESTRO TODO:

@@ -24,13 +24,9 @@ class Factura_Model{
        return $respuesta;
     }
     
-    function verTodasFactura(){
+    function verFactura(){
        global $db; 
-       $sql = "SELECT p.name, e.name,id_factura,fecha,total,t.name "
-               . "FROM factura f, persona p, estado e, tipo t "
-               . "WHERE f.id_persona = p.id_persona "
-               . "AND f.id_estado = e.id_estado"
-               . "AND f.id_tipo = t.id_tipo;";
+       $sql = "SELECT * FROM `factura` ORDER BY `id_factura`;";
        $respuesta = $db->query($sql);
        return $respuesta;
     }
@@ -45,37 +41,6 @@ class Factura_Model{
     function verFacturaFecha($fecha){
        global $db; 
        $sql = "SELECT * FROM `factura`WHERE `fecha` = '$fecha' ORDER BY fecha;";
-       $respuesta = $db->query($sql);
-       return $respuesta;
-    }
-    
-    function verFactura($id_factura){
-       global $db; 
-       /*$sql = "SELECT p.name,p.mail,p.address, e.name,id_factura,fecha,total,t.name "
-               . "FROM factura f, persona p, estado e, tipo t "
-               . "WHERE f.id_factura = '$id_factura'"
-               . "AND f.id_persona = p.id_persona "
-               . "AND f.id_estado = e.id_estado "
-               . "AND f.id_tipo = t.id_tipo;";*/
-       
-       $sql = "SELECT p.name as persona_name,p.mail,p.address, e.name as estado_name,id_factura,fecha,total,t.name as tipo_name "
-               . "FROM factura f, persona p, estado e, tipo t "
-               . "WHERE f.id_factura = '$id_factura'"
-               . "AND f.id_persona = p.id_persona "
-               . "AND f.id_estado = e.id_estado "
-               . "AND f.id_tipo = t.id_tipo;";
-      
-       $respuesta = $db->query($sql);
-       return $respuesta;
-    }
-    
-    function verPedidoFactura($id_factura){
-        global $db; 
-       $sql = "SELECT p.name, cantidad, precio, ped.total "
-               . "FROM pedido ped, producto p ,factura f "
-               . "WHERE ped.id_factura = '$id_factura' "
-               . "AND ped.id_factura = f.id_factura "
-               . "AND ped.id_producto = p.id_producto;";
        $respuesta = $db->query($sql);
        return $respuesta;
     }

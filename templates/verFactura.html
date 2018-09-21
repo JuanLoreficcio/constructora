@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css" media="all" />
+  </head>
+  <body>
+    <header class="clearfix">
+      <div id="logo">
+        <img src="logo.png">
+      </div>
+      <h1>{var_factura_code}</h1>
+      <div id="company" class="clearfix">
+        <div>Constructora</div>
+        <div>calle 1234,<br /> 3000 Santa Fe, AR</div>
+        <div>(342) 519-0450</div>
+        <div>Constructora@mail.com</div>
+      </div>
+      <div id="project">
+        <div><span>FECHA</span> {var_factura_fecha}</div>
+        <div><span>CLIENTE</span> {var_persona_name}</div>
+        <div><span>DIRECCION</span> {var_persona_address}</div>
+        <div><span>EMAIL</span> {var_persona_mail}</div>
+        <div><span>TIPO</span> {var_factura_tipo}</div>
+        <div><span>ESTADO</span> {var_factura_estado}</div>
+      </div>
+    </header>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th class="service">PRODUCTO</th>
+            <th class="desc">DESCRIPCION</th>
+            <th>PRECIO</th>
+            <th>CANTIDAD</th>
+            <th>TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+            <!-- START BLOCK : block_factura-->
+          <tr>
+            <td class="service">{var_pedido_name}</td>
+            <td class="desc">{var_pedido_name}</td>
+            <td class="unit">${var_pedido_price}</td>
+            <td class="qty">{var_pedido_cantidad}</td>
+            <td class="total">{var_pedido_total}</td>
+          </tr>
+           <!-- END BLOCK : block_factura -->
+
+           <!--<tr>
+            <td colspan="4">SUBTOTAL</td>
+            <td class="total">$5,200.00</td>
+          </tr>
+          <tr>
+            <td colspan="4">TAX 25%</td>
+            <td class="total">$1,300.00</td>
+          </tr> -->
+          <tr>
+            <td colspan="4" class="grand total">TOTAL</td>
+            <td class="grand total">{var_factura_total}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!--<div id="notices">
+        <div>NOTICE:</div>
+        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+      </div>-->
+    </main>
+    <footer>
+      Invoice was created on a computer and is valid without the signature and seal.
+    </footer>
+    </body>
+</html>
