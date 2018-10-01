@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <title>Cabecera fija</title>
+            
+        <link rel="stylesheet" href="recursos/_html/style.css">
+    </head>
+        
+    <body>
+        
+        <header id="main-header">
+            
+            <a id="logo-header" href="#">
+                <span class="site-name">Comercio</span>
+                <span class="site-desc">Gestor de facturas</span>
+            </a> <!-- / #logo-header -->
+                
+            <nav>
+                <ul>
+                    <!--<li><a href="{hrefInicio}">Inicio</a></li>
+                    <li><a href="{hrefProducto}">Productos</a></li>
+                    <li><a href="{hrefPersona}">Personas</a></li>
+                    <li><a href="{hrefFactura}">Facturas</a></li>-->
+                    <li><a href="index.php">Inicio</a></li>
+                    <li><a href="index.php?action=Producto::verProductos">Productos</a></li>
+                    <li><a href="index.php?action=Persona::verPersonas">Personas</a></li>
+                    <li><a href="index.php?action=Factura::verTodasFactura">Facturas</a></li>
+                </ul>
+            </nav><!-- / nav -->
+                
+        </header><!-- / #main-header -->
+            
+            
+        <section id="main-content">
+            
+            <article>
+                <header>
+                    <h1><?php echo $title; ?></h1>
+                </header>
+                    
+                <div style="text-align: center">
+                    <!--<img src="https://scontent.faep8-1.fna.fbcdn.net/v/t1.0-9/29177684_10215448854434870_3785652301465649152_n.jpg?_nc_cat=102&oh=04c15b3f521c9715a48385eb8472dbcf&oe=5C5B80C8" width= 50%/>
+                    -->
+                </div> 
+                    
+                <div class="content">
+                    {contenido}
+                </div>
+                    
+            </article> <!-- /article -->
+                
+        </section> <!-- / #main-content -->
+            
+            
+            
+        <footer id="main-footer">
+            <p>&copy; 2018 <a href="http://Cipax.com.ar">Cipax.com.ar</a></p>
+        </footer> 
+            
+    </body>
+</html>

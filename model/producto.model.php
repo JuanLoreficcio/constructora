@@ -1,5 +1,4 @@
 <?php
-
 class Producto_model{
     function nuevoProducto($name, $price){
         global $db;
@@ -10,9 +9,9 @@ class Producto_model{
     
     function modificarProducto ($id_producto,$name, $price){
       global $db;
-      $sql = "UPDATE `producto` SET `name` = '$name', `price` = '$price' WHERE `producto`.`id_producto` = $id_producto;";
+      $sql = "UPDATE `producto` SET `name` = '$name', `price` = '$price' WHERE `producto`.`id_producto` = '$id_producto';";
       $respuesta = $db->update($sql);
-      return $respuesta;
+      return $respuesta;    
   }
   
     function eliminarProducto($id_producto){
@@ -53,5 +52,15 @@ function  verProductos_price($price){
         return false;
         }
     }
+
+function verProducto($id_producto){
+    global $db;
+    $sql = "SELECT id_producto, name, price FROM `producto` WHERE id_producto = '$id_producto';";
+    $result = $db->query($sql);
+    if($result){
+        return $result;
+    } else {
+        return false;
+    }
 }
-?>
+}

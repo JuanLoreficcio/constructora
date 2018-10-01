@@ -1,0 +1,37 @@
+<form id="frmAltaProducto" name="frmAltaProducto" method=post>
+    <input type="hidden" name="action" value="Producto::nuevoProducto">	
+    <select name="cliente">
+        <!--START BLOCK: cliente_factura-->
+        {cliente} 
+        <!--END BLOCK: cliente_factura--> 
+    </select>
+    <select name="tipo">
+        <option value="0">Compra</option> 
+        <option value="1">Venta</option> 
+    </select>
+    <select name="estado">
+        <option value="0">Presupuestado</option> 
+        <option value="1">Confirmado</option> 
+        <option value="2">Entregado</option> 
+        <option value="3">Pagado</option> 
+    </select>
+        
+    <fieldset><legend>Pedidos</legend>
+        <table aling=center border=1 cellpadding=3 cellspacing=0 width="100%">
+            <tr>
+                <th with="20%" alling="center">Producto</th>
+                <th with="20%" alling="center">Precio unitario</th>
+                <th with="20%" alling="center">cantidad</th>
+                <th with="20%" alling="center">Subtotal</th>
+            </tr>
+            <!-- START BLOCK : block_pedidos-->
+            <tr>
+                <td>{var_list_nam}</td>
+                <td> {var_list_preUnitario}</td>
+                <td>{var_list_cant}</td>
+                <td> {var_list_subtotal}</td>
+            </tr>
+            <!-- END BLOCK : block_pedidos-->
+        </table>	
+    </fieldset>
+</form>

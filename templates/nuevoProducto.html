@@ -1,12 +1,12 @@
-<form action="////////////.php" method="POST">
-<input type="hidden" value="<?php echo $id;?>" name="idProduct">
-        Producto:
-        <input type="text"  name="nameProduct">
-	<br><br>
-        Precio Unitario:
-	<input type="text"  name="priceProduct">
-	<br><br>
-	<button type="submit">
-		Enviar
-	</button>
-</form>
+<form id="frmAltaProducto" name="frmAltaProducto" method=post>
+    <input type="hidden" name="action" value="Producto::nuevoProducto">	
+    Producto:
+    <input type="text"  name="nameProducto">
+    <br><br>
+    Precio Unitario:
+    <input type="text"  name="priceProducto">
+    <br><br>
+    <input type="button" onclick="location.href='index.php?action=Producto::verProductos'" value=" Volver ">
+    <input type="submit" value="Guardar">
+</form> 
+    

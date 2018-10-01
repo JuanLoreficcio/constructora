@@ -25,12 +25,21 @@ class Factura_Model{
     }
     
     function verTodasFactura(){
-       global $db; 
-       $sql = "SELECT p.name, e.name,id_factura,fecha,total,t.name "
+       /*global $db; 
+       $sql = "SELECT p.name as persona_name,e.name as estado_name,id_factura,fecha,total,t.name as tipo_name "
                . "FROM factura f, persona p, estado e, tipo t "
-               . "WHERE f.id_persona = p.id_persona "
+               . "WHERE f.id_persona = p.id_persona"
                . "AND f.id_estado = e.id_estado"
                . "AND f.id_tipo = t.id_tipo;";
+       $respuesta = $db->query($sql);
+       return $respuesta;*/
+       global $db;       
+       $sql = "SELECT p.name as persona_name,p.mail,p.address, e.name as estado_name,id_factura,fecha,total,t.name as tipo_name "
+               . "FROM factura f, persona p, estado e, tipo t "
+               . "WHERE f.id_persona = p.id_persona "
+               . "AND f.id_estado = e.id_estado "
+               . "AND f.id_tipo = t.id_tipo;";
+      
        $respuesta = $db->query($sql);
        return $respuesta;
     }
@@ -50,14 +59,7 @@ class Factura_Model{
     }
     
     function verFactura($id_factura){
-       global $db; 
-       /*$sql = "SELECT p.name,p.mail,p.address, e.name,id_factura,fecha,total,t.name "
-               . "FROM factura f, persona p, estado e, tipo t "
-               . "WHERE f.id_factura = '$id_factura'"
-               . "AND f.id_persona = p.id_persona "
-               . "AND f.id_estado = e.id_estado "
-               . "AND f.id_tipo = t.id_tipo;";*/
-       
+       global $db;       
        $sql = "SELECT p.name as persona_name,p.mail,p.address, e.name as estado_name,id_factura,fecha,total,t.name as tipo_name "
                . "FROM factura f, persona p, estado e, tipo t "
                . "WHERE f.id_factura = '$id_factura'"
@@ -80,4 +82,3 @@ class Factura_Model{
        return $respuesta;
     }
 }
-

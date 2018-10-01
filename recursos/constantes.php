@@ -1,9 +1,11 @@
 <?php
 const proveedor = 0;
 const cliente = 1;
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
+const compra = 0;
+const venta = 1;
+
+const presupuestado = 0;
+const confirmado = 1;
+const entregado = 2;
+const pagado = 3;

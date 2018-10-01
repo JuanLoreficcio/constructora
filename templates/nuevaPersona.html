@@ -1,24 +1,22 @@
-<form action="////////////.php" method="POST">
-<input type="hidden" value="<?php echo $id;?>" name="idPerson">
-        Persona:
-        <input type="text"  name="namePerson">
-	<br><br>
-        Direccion:
-	<input type="text"  name="dirPersona">
-	<br><br>
-	    Correo Electronico:
-	<input type="text"  name="mailPersona">
-	<br><br>
-	    Telefono:
-	<input type="text"  name="telPersona">
-	<br><br>
-	    Rol:
-	<select name="Rol">
-   <option value="1">Proveedor</option> 
-   <option value="2">Cliente</option> 
-	</select>
-	<br><br>
-	<button type="submit">
-		Enviar
-	</button>
+<form id="frmAltaProducto" name="frmAltaProducto" method=post>
+    <input type="hidden" name="action" value="Persona::nuevaPersona">
+    Persona:
+    <input type="text"  name="namePersona">
+    <br>
+    Direccion:
+    <input type="text"  name="dirPersona">
+    <br>
+    Correo Electronico:
+    <input type="text"  name="mailPersona">
+    <br>
+    Telefono:
+    <input type="text"  name="telPersona">
+    <br>
+    Rol:
+    <select name="rol">
+        <option value="0">Proveedor</option> 
+        <option value="1">Cliente</option> 
+    </select>
+    <br>
+    <input type="submit" value="Guardar"> 
 </form>

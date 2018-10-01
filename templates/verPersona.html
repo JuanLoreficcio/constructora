@@ -1,0 +1,18 @@
+<input type="hidden" name="idPersona" value="{var_lis_cod}">	
+<th with="20%" alling="center">Nombre y Apellido:</th> {apellidoNombre}
+<br>
+<th with="20%" alling="center">Direccion:</th> {direccion}
+<br>
+<th with="20%" alling="center">Mail:</th> {mail}
+<br>
+<th with="20%" alling="center">Telefono:</th> {phone}
+<br>
+<th with="20%" alling="center">Rol:</th> {rol}
+<br>
+
+
+
+<td><a href="index.php?action=Persona::altaModificarPersona&id={var_lis_cod}">Edit</a></td>
+<td><a href="index.php?action=Persona::eliminarPersona&id={var_lis_cod}">Eliminar</a></td>
+<br>
+<input type="button" onclick="location.href='index.php?action=Persona::verPersonas'" value=" Volver ">

@@ -1,3 +1,4 @@
+<div style="text-align: right"><input alling=rigth type="button" onclick=" location.href='index.php?action=Factura::altaFactura' " value="Nuevo Factura" name="boton" /></div>
 <fieldset><legend>Listado de Facturas</legend>
     <table aling=center border=1 cellpadding=3 cellspacing=0 width="100%">
         <tr>
@@ -15,16 +16,13 @@
             <td> {var_list_titular}</td>
             <td>{var_list_estado}</td>
             <td>{var_list_total}</td>
-            <td><a href="verFactura.html?action=see&id={var_lis_cod}">Ver</a></td>
+            <td><a href="index.php?action=Factura::verFactura&id={var_list_cod}">Ver</a></td>
         </tr>
         <!-- END BLOCK : block_listado_facturas -->
-        
+            
         <!-- START BLOCK : block_no_listado_facturas-->
-        <tr><td colspan=7 aling="center"> No hay productos cargados</td></tr>
+        <tr><td colspan=7 aling="center"> No hay facturas cargadas</td></tr>
         <!-- END BLOCK : block_no_listado_facturas -->
     </table>	
 </fieldset>
-<div style="text-align: right">
-    <input alling=rigth type="button" onclick=" location.href='templates/nuevoFactura.html' " value="Nuevo Factura" name="boton" />
-</div>
-        
+    

@@ -6,6 +6,7 @@
         include("recursos/constantes.php");
 	
 	// Controllers
+        include("controller/ingreso.controller.php");
         include("controller/persona.controller.php");
 	include("controller/usuario.controller.php");
 	include("controller/producto.controller.php");

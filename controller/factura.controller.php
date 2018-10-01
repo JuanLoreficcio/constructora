@@ -15,11 +15,30 @@
         $result = $factura->eliminarFactura($id_factura);
         return $result;
     }
-    function verTodaFactura(){
+    function verTodasFactura(){
+        $tpl = new TemplatePower("templates/listadoFacturas.html");
+        $tpl->prepare();
         $factura = new Factura_Model();
-        $result = $factura->verFactura();
-        return $result;
+        $result = $factura->verTodasFactura();
+        
+        if($result){
+            $tpl->gotoBlock("_ROOT");
+            foreach ($result as $r){
+            $tpl->newBlock("block_listado_facturas");
+            $tpl->assign("var_list_cod",$r["id_factura"]);
+            $tpl->assign("var_list_fecha",$r["fecha"]);
+            $tpl->assign("var_list_titular",$r["persona_name"]);
+            $tpl->assign("var_list_estado",$r["estado_name"]);
+            $tpl->assign("var_list_total",$r["total"]);
+            }
+        }else{
+            $tpl->gotoBlock("_ROOT");
+            $tpl->newBlock("block_no_listado_facturas");
+        }
+        
+        return $tpl->getOutputContent();
     }
+    
     function verFacturaPersona($id_persona){
         $factura = new Factura_Model();
         $result = $factura->verFacturaPersona($id_persona);
@@ -31,13 +50,12 @@
         return $result;
     }
     
-    function verFactura($id_factura){
+    function verFactura(){
+        $id_factura=strip_tags($_REQUEST["id"]);
         $tpl = new TemplatePower("templates/verFactura.html");
         $tpl->prepare();
-        $tpl->gotoBlock("_ROOT");
         $factura = new Factura_Model();
         $resulta = $factura->verFactura($id_factura);
-        //var_dump($resulta);
         $tpl->gotoBlock("_ROOT");
         foreach ($resulta as $result){
             $tpl->assign("var_factura_code",$result["id_factura"]);
@@ -50,24 +68,18 @@
         }
         
         
-        $pedidos = $factura->verPedidoFactura($id_factura);
+        $pedido = $factura->verPedidoFactura($id_factura);
         $tpl->gotoBlock("_ROOT");
-        foreach ($pedidos as $r){
+        foreach ($pedido as $r){
             $tpl->newBlock("block_factura");
             $tpl->assign("var_pedido_name",$r["name"]);
             $tpl->assign("var_pedido_price",$r["precio"]);
             $tpl->assign("var_pedido_cantidad",$r["cantidad"]);
             $tpl->assign("var_pedido_total",$r["total"]);
         }
-        
         $tpl->gotoBlock("_ROOT");
         $tpl->assign("var_factura_total",$result["total"]);
         return $tpl->getOutputContent();
     }
     
-    function verPedidoFactura($id_factura){
-        $factura = new Factura_Model();
-        $result = $factura->verPedidoFactura($id_factura);
-        return $result;
-    }
  }

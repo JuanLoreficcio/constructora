@@ -1,0 +1,16 @@
+<form id="frmModificarProducto" name="frmModificarProducto" method=post>
+    <input type="hidden" name="action" value="Producto::modificarProducto">
+    <!-- START BLOCK : block_modificar_productos -->
+    <input type="hidden" value={var_id} name="id">        
+    Producto:
+    <input type="text"  value="{var_nameProducto}" name="nombre" id="nombre">
+    <br><br>
+    Precio Unitario:
+    <input type="text"  value="{var_priceProducto}" name="price" id="price">
+    <br><br>
+    <!-- END BLOCK : block_modificar_productos -->
+    <input type="button" onclick="location.href='index.php?action=Producto::verProductos'" value=" Volver ">
+    <input type="submit" value="Guardar">
+        
+</form>
+    

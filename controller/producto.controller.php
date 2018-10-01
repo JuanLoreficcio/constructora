@@ -1,19 +1,29 @@
 <?php
 class Producto_Controller{
-     function nuevoProducto($name, $price){
-       $var_producto = new Producto_model();
-       $var_producto->nuevoProducto($name, $price);
+    function nuevoProducto(){
+        $nameProducto = strip_tags($_REQUEST ["nameProducto"]);
+        $priceProducto = strip_tags($_REQUEST ["priceProducto"]);
+        $var_producto = new Producto_model();
+        $var_producto->nuevoProducto($nameProducto, $priceProducto);
+        return $this->verProductos();
     }
     
-    function modificarProducto ($id_producto,$name, $price){
+    function modificarProducto (){
+        $id = strip_tags($_REQUEST ["id"]);
+        $nameProducto = strip_tags($_REQUEST["nombre"]);
+         var_dump($nameProducto);
+        $priceProducto = strip_tags($_REQUEST["price"]);
         $var_producto = new Producto_model();
-        $var_producto->modificarProducto($id_producto, $name, $price);
-  }
+        $var_producto->modificarProducto($id, $nameProducto, $priceProducto);
+        return $this->verProductos();
+    }
   
-    function eliminarProducto($id_producto){
+    function eliminarProducto(){
+        $idProducto = strip_tags($_REQUEST ["id"]);
         $var_producto = new Producto_model();
-        $var_producto->eliminarProducto($id_producto);
-}
+        $var_producto->eliminarProducto($idProducto);
+        return $this->verProductos();
+    }
 
 function  verProductos(){
     $tpl = new TemplatePower("templates/listadoProducto.html");
@@ -47,6 +57,44 @@ function  verProductos_price($price){
     $var_producto = new Producto_model();
     return $var_producto->verProductos_name($price);
     }
-}
 
-?>
+/*function verProducto(){
+    $idProducto = strip_tags($_GET ["ProductoModifyId"]);
+    $tpl = new TemplatePower("templates/modificarProducto.html");
+    $tpl->prepare();
+       
+    $var_producto = new Producto_model();
+    $res = $var_producto->verProducto($idProducto);
+    
+    $tpl->gotoBlock("_ROOT");
+    foreach ($res as $r){
+        $tpl->assign("var_id",$r["id_producto"]);    
+        $tpl->assign("var_nameProducto",$r["name"]);
+        $tpl->assign("var_priceProducto",$r["price"]);
+    }
+
+    
+    echo $tpl->getOutputContent();
+    }*/
+    function altaProducto(){
+        $tpl = new TemplatePower("templates/nuevoProducto.html");
+        $tpl->prepare();
+        return $tpl->getOutputContent();
+    }
+    function altaModificarProducto(){
+        $idProducto = strip_tags($_REQUEST ["id"]);
+        $producto = new Producto_model();
+        $respuesta = $producto->verProducto($idProducto);
+        $tpl = new TemplatePower("templates/modificarProducto.html");
+        $tpl->prepare();
+        $tpl->gotoBlock("_ROOT");
+        foreach ($respuesta as $res){
+            $tpl->newBlock("block_modificar_productos");
+            $tpl->assign("var_id",$res["id_producto"]);
+            $tpl->assign("var_nameProducto",$res["name"]);
+            $tpl->assign("var_priceProducto",$res["price"]);
+        }
+        
+        return $tpl->getOutputContent();
+    }
+ }
