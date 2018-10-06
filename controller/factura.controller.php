@@ -1,10 +1,33 @@
 <?php
  class Factura_Controller{
- function crearFactura($id_persona,$id_tipo,$id_estado,$total,$descuento){
-         $factura = new Factura_Model();
-        $result = $factura->crearFactura($id_persona, $id_tipo, $id_estado, $total, $descuento);
-        return $result;
+ function nuevoFactura(){
+        $stringPedidos = strip_tags($_REQUEST['todos']);
+        $pedidos= explode(',',$stringPedidos); 
+        $id_persona =strip_tags($_REQUEST['cliente']);
+        $id_tipo =strip_tags($_REQUEST['tipo']);
+        $id_estado =strip_tags($_REQUEST['estado']);
+        
+        $pedido = new Pedido_Model();
+        $factura = new Factura_Model();
+        $total =0;
+        $tamArreglo = count($pedidos);
+        for($i=3;$i<$tamArreglo;$i+=5){
+            $total+=$pedidos[$i];
+        }
+
+        $id_factura = $factura->nuevoFactura($id_persona, $id_tipo+1, $id_estado+1, $total,0);
+        
+        for($i=0;$i<$tamArreglo;$i+=5){
+            $j=$i;
+            $precioU =   $pedidos[$j+=1];
+            $cantidad=   $pedidos[$j+=1];
+            $subtotal=   $pedidos[$j+=1];
+            $id_producto=$pedidos[$j+=1];
+            $pedido->crearPedido($id_producto,$id_factura,$precioU,$cantidad,$subtotal);    
+        }
+        return $this->verTodasFactura();
     }
+    
     function modificarFactura($id_factura,$fecha,$id_persona,$id_tipo,$id_estado,$total,$descuento){
         $factura = new Factura_Model();
         $result = $factura->modificarFactura($id_factura, $fecha, $id_persona, $id_tipo, $id_estado, $total, $descuento);
@@ -81,5 +104,29 @@
         $tpl->assign("var_factura_total",$result["total"]);
         return $tpl->getOutputContent();
     }
-    
+    function altaFactura(){
+        $tpl = new TemplatePower("templates/nuevaFactura.html");
+        $tpl->prepare();
+        $personas = new Persona_Model();
+        $producto = new Producto_Model();
+        $tpl->gotoBlock("_ROOT");
+        $personitas = $personas->verPersonas();
+        $productos = $producto->verProductos();
+        foreach ($personitas as $r){
+            $tpl->newBlock("block_cliente");
+            $tpl->assign("idCliente",$r["id_persona"]);
+            $tpl->assign("var_cliente",$r["name"]);
+        }
+        
+      
+        $tpl->gotoBlock("_ROOT");
+        foreach ($productos as $p){
+            $tpl->newBlock("producto_factura");
+            $tpl->assign("idProducto",$p["id_producto"]);
+            $tpl->assign("precioProducto",$p["price"]);
+            $tpl->assign("var_producto",$p["name"]);
+        }
+               
+        return $tpl->getOutputContent();
+    }
  }

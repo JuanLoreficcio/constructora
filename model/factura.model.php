@@ -1,6 +1,6 @@
 <?php
 class Factura_Model{
-    function crearFactura($id_persona,$id_tipo,$id_estado,$total,$descuento){
+    function nuevoFactura($id_persona,$id_tipo,$id_estado,$total,$descuento){
        global $db; 
        $sql = "INSERT INTO `factura` (`id_factura`, `id_persona`, `id_tipo`, `id_estado`, `total`, `fecha`, `descuento`) "
                . "VALUES (NULL, '$id_persona', '$id_tipo', '$id_estado', '$total', CURRENT_DATE(), '$descuento');";
@@ -25,14 +25,6 @@ class Factura_Model{
     }
     
     function verTodasFactura(){
-       /*global $db; 
-       $sql = "SELECT p.name as persona_name,e.name as estado_name,id_factura,fecha,total,t.name as tipo_name "
-               . "FROM factura f, persona p, estado e, tipo t "
-               . "WHERE f.id_persona = p.id_persona"
-               . "AND f.id_estado = e.id_estado"
-               . "AND f.id_tipo = t.id_tipo;";
-       $respuesta = $db->query($sql);
-       return $respuesta;*/
        global $db;       
        $sql = "SELECT p.name as persona_name,p.mail,p.address, e.name as estado_name,id_factura,fecha,total,t.name as tipo_name "
                . "FROM factura f, persona p, estado e, tipo t "

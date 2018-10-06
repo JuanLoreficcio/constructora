@@ -23,3 +23,4 @@
         include("model/tipo.model.php");
         include("model/cobros.model.php");
         include("model/factura.model.php");
+        include("model/pedido.model.php");

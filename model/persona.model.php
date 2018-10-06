@@ -1,4 +1,4 @@
-<?php
+<?php //
 class Persona_Model{
   function nuevaPersona ($name, $adress, $mail, $phone, $rol){
       global $db;

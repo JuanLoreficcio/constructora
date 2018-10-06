@@ -8,7 +8,7 @@ class Persona_Controller{
         $rol=strip_tags($_REQUEST["rol"]);
         $var_persona = new Persona_Model;
         $respuesta = $var_persona->nuevaPersona($name, $adress, $mail, $phone, $rol);
-        return $this->verPersona();
+        return $this->verPersonas();
   }
       
     function modificarPersona (){
@@ -66,7 +66,7 @@ class Persona_Controller{
         return $respuesta;
     }
     function verPersona(){
-        $id_Persona= strip_tags($_REQUEST ["id"]);
+        $id_Persona= strip_tags($_REQUEST["id"]);
         $var_persona = new Persona_Model;
         $respuesta = $var_persona->verPersona($id_Persona);
         $tpl = new TemplatePower("templates/verPersona.html");

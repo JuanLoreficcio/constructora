@@ -1,37 +1,168 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <form id="frmAltaProducto" name="frmAltaProducto" method=post>
-    <input type="hidden" name="action" value="Producto::nuevoProducto">	
+    <input type="hidden" name="action" value="Factura::nuevoFactura">	
     <select name="cliente">
-        <!--START BLOCK: cliente_factura-->
-        {cliente} 
-        <!--END BLOCK: cliente_factura--> 
+        <!-- START BLOCK : block_cliente-->        
+        <option value="{idCliente}">{var_cliente}</option>    
+        <!-- END BLOCK : block_cliente-->        
     </select>
     <select name="tipo">
         <option value="0">Compra</option> 
         <option value="1">Venta</option> 
     </select>
     <select name="estado">
-        <option value="0">Presupuestado</option> 
-        <option value="1">Confirmado</option> 
+        <option value="0">Presupuestado</option>  
+       <option value="1">Confirmado</option> 
         <option value="2">Entregado</option> 
         <option value="3">Pagado</option> 
     </select>
+    <br><br>
+    <div id="metric_results"></div>
+    <button onclick="onSend(this.form);" >EnviarYAAA</button>
+</form> 
+<!--<button onclick="processData()">Post-process</button>-->
+
+<div style="text-align: right">
+    <button class="btn btn-success" data-toggle="modal" data-target="#modalForm">
+        Sumar producto 
+    </button>
+</div>
+
+    <div class="modal fade" id="modalForm" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">X</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Producto</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="statusMsg"></p>
+
+                    <form id="dataForm">
+                        <label for="producto" class="col-2 col-form-label">Producto lista</label>
+                        <div class="form-group row">
+                            <div class="col-10">
+                                <select class="form-control" id="producto" name="producto" onchange="elegirsaldo(this);">
+                                  <option data-id ="0" data-name="" data-price ="" >Productos</option>
+                                  <!-- START BLOCK : producto_factura-->
+                                  <option data-id ="{idProducto}" data-name="{var_producto}" data-price ="{precioProducto}" >{var_producto}    ${precioProducto}</option> 
+                                  <!-- START BLOCK : producto_factura-->
+                                </select>
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cantidad" class="col-2 col-form-label">Cantidad</label>
+                            <div class="col-10">
+                                <input id="cantidad" name="cantidad" class="form-control" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input class="btn btn-large btn-primary" value="Save" type="submit">
+                        </div>
+
+                    </form>
+
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+
+ 
+<script>
+    var data = [];
+    var precio;
+    var idProducto;
+    var nombreProducto;
+    var todos = [];
+    $("#dataForm").submit(function(event) {
+        event.preventDefault();
+        data.push(nombreProducto);
+        data.push(precio);
+        var cantidad =$(this).find('input[name="cantidad"]').val();
+        data.push(cantidad);
+        var subtotal = cantidad*precio;
+        data.push(subtotal);
+        data.push(idProducto);       
+        $("#modalForm").modal("hide");
+        todos.push(data);
+        data = [];
+        addTable(todos);
+    });
+    
+    
+    function processData() {
+        alert(todos);
+    }
+    
+    function elegirsaldo(el){ // recibimos por parametro el elemento select
+      // obtenemos la opción seleccionada .
+      precio = $('option:selected', el).attr('data-price');
+      idProducto =$('option:selected', el).attr('data-id');
+      nombreProducto =$('option:selected', el).attr('data-name');
+    }
+    
+       
+    function onSend(form){
+      input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'todos';
+      input.value = todos;
+      form.appendChild(input);
+      form.submit();
+}
+</script>
+
+<script>
+    function deleteTable(){
+        var Table = document.getElementById("metric_results");
+        Table.innerHTML = "";
+    }
+    function addTable(todos) {
+        deleteTable();
+        var myTableDiv = document.getElementById("metric_results");
+        var table = document.createElement('TABLE');
+        var tableBody = document.createElement('TBODY');
         
-    <fieldset><legend>Pedidos</legend>
-        <table aling=center border=1 cellpadding=3 cellspacing=0 width="100%">
-            <tr>
-                <th with="20%" alling="center">Producto</th>
-                <th with="20%" alling="center">Precio unitario</th>
-                <th with="20%" alling="center">cantidad</th>
-                <th with="20%" alling="center">Subtotal</th>
-            </tr>
-            <!-- START BLOCK : block_pedidos-->
-            <tr>
-                <td>{var_list_nam}</td>
-                <td> {var_list_preUnitario}</td>
-                <td>{var_list_cant}</td>
-                <td> {var_list_subtotal}</td>
-            </tr>
-            <!-- END BLOCK : block_pedidos-->
-        </table>	
-    </fieldset>
-</form>
+        table.border = '1';
+        table.appendChild(tableBody);
+        
+        var heading = [];
+        heading[0] = "Nombre";
+        heading[1] = "Precio unitario";
+        heading[2] = "Cantidad";
+        heading[3] = "Subtotal";
+        
+        
+        //COLUMNAS DE LA TABLA
+        var tr = document.createElement('TR');
+        tableBody.appendChild(tr);
+        for (i = 0; i < heading.length; i++) {
+            var th = document.createElement('TH');
+            th.width = '75';
+            th.appendChild(document.createTextNode(heading[i]));
+            tr.appendChild(th);
+        }
+        
+        //FILAS DE LA TABLA
+        for (i = 0; i < todos.length; i++) {
+            var tr = document.createElement('TR');
+            for (j = 0; j < todos[i].length-1; j++) {
+                var td = document.createElement('TD');
+                td.appendChild(document.createTextNode(todos[i][j]));
+                tr.appendChild(td);
+            }
+            tableBody.appendChild(tr);
+        }  
+        myTableDiv.appendChild(table)
+    }
+</script>

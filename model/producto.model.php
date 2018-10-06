@@ -1,5 +1,5 @@
 <?php
-class Producto_model{
+class Producto_Model{
     function nuevoProducto($name, $price){
         global $db;
         $sql = "INSERT INTO `producto`(`id_producto`, `name`, `price`) VALUES (NULL,'$name','$price');";
