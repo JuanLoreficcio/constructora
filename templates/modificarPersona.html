@@ -1,26 +1,32 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <form id="frmModificarPersona" name="frmModificarPersona" method=post>
+    <div class="form-group">
     <input type="hidden" name="action" value="Persona::modificarPersona">	
         
     <input type="hidden" id="id" value="{var_lis_cod}" name="id">
     <input type="hidden" id="fecha" value="{var_lis_fech}" name="fecha">
-    Nombre y Apellido: 
-    <input type="text" name="nombre"  value="{apellidoNombre}" id="nombre" maxlength="15" size="15">
+    <label for="persona">Nombre y Apellido</label> 
+    <input class="form-control" type="text" name="nombre"  value="{apellidoNombre}" id="nombre" maxlength="15" size="15">
     <br>
-    Direccion:
-    <input type="text"  value="{direccion}" name="direccion" id="direccion">
+    <label for="direccion">Direccion</label>
+    <input class="form-control" type="text"  value="{direccion}" name="direccion" id="direccion">
     <br>
-    Mail:
-    <input type="text"  value="{mail}" name="mail" id="mail">
+    <label for="mail">Mail</label>
+    <input class="form-control" type="text"  value="{mail}" name="mail" id="mail">
     <br>
-    Telefono:
-    <input type="text"  value="{phone}" name="phone" id="phone">
+    <label for="telefono">Telefono</label>
+    <input class="form-control" type="text"  value="{phone}" name="phone" id="phone">
     <br>
-    Rol: <select name="rol">
+    <label for="rol">Rol</label>
+         <select class="form-control" name="rol">
         <option value="0" {defecto0}>Proveedor</option> 
         <option value="1" {defecto1}>Cliente</option> 
     </select>
     <br>
         
-    <input type="button" onclick="location.href='index.php?action=Persona::verPersonas'" value=" Volver ">
-    <input type="submit" value="Guardar">
+    <input class="btn btn-default" type="button" onclick="location.href='index.php?action=Persona::verPersonas'" value=" Volver ">
+    <input class="btn btn-success" type="submit" value="Guardar">
+    </div>
 </form>

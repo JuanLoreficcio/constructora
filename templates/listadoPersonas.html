@@ -1,25 +1,30 @@
-<div style="text-align: right"><input alling=rigth type="button" onclick=" location.href='index.php?action=Persona::altaPersona' " value="Nueva Persona" name="boton" /></div>
-<fieldset><legend>Listado de Personas</legend>
-    <table aling=center border=1 cellpadding=3 cellspacing=0 width="100%">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<div style="text-align: right">
+    <input class="btn btn-primary" alling=rigth type="button" onclick=" location.href='index.php?action=Persona::altaPersona' " value="Nueva Persona" name="boton" /></div>
+<div class="table-responsive">
+    <h2>Listado de Personas</h2>
+    <table class="table" >
         <tr>
             <th with="20%" alling="center">Nombre y Apellido</th>
             <th with="20%" alling="center">Rol</th>
-            <th with="20%" alling="center">Ver</th>
-            <th with="20%" alling="center">Editar</th>
-            <th with="20%" alling="center">Borrar</th>
+            <th with="20%" alling="center"></th>
+            <th with="20%" alling="center"></th>
+            <th with="20%" alling="center"></th>
         </tr>
         <!-- START BLOCK : block_listado_personas -->
         <tr>
             <td>{var_list_nam}</td>
             <td> {var_list_rol}</td>
-            <td><a href="index.php?action=Persona::verPersona&id={var_lis_cod}">Ver</a></td>
-            <td><a href="index.php?action=Persona::altaModificarPersona&id={var_lis_cod}">Edit</a></td>
-            <td><a href="index.php?action=Persona::eliminarPersona&id={var_lis_cod}">Eliminar</a></td>
+            <td> <a href="index.php?action=Persona::verPersona&id={var_lis_cod}" class="btn btn-info">Ver</a></td>
+            <td> <a href="index.php?action=Persona::altaModificarPersona&id={var_lis_cod}" class="btn btn-warning">Edit</a></td>
+            <td> <a href="index.php?action=Persona::eliminarPersona&id={var_lis_cod}" class="btn btn-danger">Eliminar</a></td>
         </tr>
         <!-- END BLOCK : block_listado_personas -->
         
         <!-- START BLOCK : block_no_listado_personas -->
         <tr><td colspan=5 aling="center"> No hay Personas cargadas</td></tr>
         <!-- END BLOCK : block_no_listado_personas -->
-    </table>	
-</fieldset>
+    </table>
+</div>

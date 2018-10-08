@@ -1,22 +1,33 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
 <form id="frmAltaProducto" name="frmAltaProducto" method=post>
-    <input type="hidden" name="action" value="Persona::nuevaPersona">
-    Persona:
-    <input type="text"  name="namePersona">
-    <br>
-    Direccion:
-    <input type="text"  name="dirPersona">
-    <br>
-    Correo Electronico:
-    <input type="text"  name="mailPersona">
-    <br>
-    Telefono:
-    <input type="text"  name="telPersona">
-    <br>
-    Rol:
-    <select name="rol">
-        <option value="0">Proveedor</option> 
-        <option value="1">Cliente</option> 
-    </select>
-    <br>
-    <input type="submit" value="Guardar"> 
+    <div class="form-group">
+        <input type="hidden" name="action" value="Persona::nuevaPersona">
+        
+        <label for="persona">Nombre Y Apellido</label>
+        <input type="text"  class="form-control" name="namePersona">
+        <br>
+        <label for="direccion">Direccion</label>
+        <input type="text"  class="form-control" name="dirPersona">
+        <br>
+        <label for="correo">Correo Electronico</label>
+        <input type="text" class="form-control" name="mailPersona">
+        <br>
+        <label for="telefono">Telefono</label>
+        <input type="text" class="form-control"  name="telPersona">
+        <br>
+        <label for="rol">Rol</label>
+        <select class="form-control" name="rol">
+            <option value="0">Proveedor</option> 
+            <option value="1">Cliente</option> 
+        </select>
+        <br>
+        <div align="right">
+            <a href="index.php?action=Persona::verPersonas" class="btn btn-default">Volver</a>
+            <input type="submit" class="btn btn-success" value="Guardar">
+        </div>
+        
+        
+    </div>
 </form>

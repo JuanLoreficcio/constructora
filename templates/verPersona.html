@@ -1,18 +1,42 @@
-<input type="hidden" name="idPersona" value="{var_lis_cod}">	
-<th with="20%" alling="center">Nombre y Apellido:</th> {apellidoNombre}
-<br>
-<th with="20%" alling="center">Direccion:</th> {direccion}
-<br>
-<th with="20%" alling="center">Mail:</th> {mail}
-<br>
-<th with="20%" alling="center">Telefono:</th> {phone}
-<br>
-<th with="20%" alling="center">Rol:</th> {rol}
-<br>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<input type="hidden" name="idPersona" value="{var_lis_cod}">
+<div class="form-group">
+<p class="lead">
+    Nombre y Apellido: {apellidoNombre}
+    <br>
+    Direccion:         {direccion}
+    <br>
+    Mail:              {mail}
+    <br>
+    Telefono:          {phone}
+    <br>
+    Rol:               {rol}
+</p>
+</div>
+<br><br>
+<p><input class="btn btn-default" type="button" onclick="location.href='index.php?action=Persona::verPersonas'" value=" Volver ">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a class="btn btn-warning" href="index.php?action=Persona::altaModificarPersona&id={var_lis_cod}">Edit</a>
+    <a class="btn btn-danger"  href="index.php?action=Persona::eliminarPersona&id={var_lis_cod}">Eliminar</a>
+</p>
 
-
-<td><a href="index.php?action=Persona::altaModificarPersona&id={var_lis_cod}">Edit</a></td>
-<td><a href="index.php?action=Persona::eliminarPersona&id={var_lis_cod}">Eliminar</a></td>
-<br>
-<input type="button" onclick="location.href='index.php?action=Persona::verPersonas'" value=" Volver ">
