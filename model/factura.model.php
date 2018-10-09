@@ -30,8 +30,7 @@ class Factura_Model{
                . "FROM factura f, persona p, estado e, tipo t "
                . "WHERE f.id_persona = p.id_persona "
                . "AND f.id_estado = e.id_estado "
-               . "AND f.id_tipo = t.id_tipo;";
-      
+               . "AND f.id_tipo = t.id_tipo ORDER BY id_factura;";
        $respuesta = $db->query($sql);
        return $respuesta;
     }

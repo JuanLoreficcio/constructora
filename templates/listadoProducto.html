@@ -1,29 +1,32 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
 <div style="text-align: right">
-    <input alling=rigth type="button" onclick=" location.href='index.php?action=Producto::altaProducto' " value="Nuevo producto" name="boton" />
+    <input class="btn btn-primary" alling=rigth type="button" onclick=" location.href='index.php?action=Producto::altaProducto' " value="Nuevo producto" name="boton" />
 </div>
-<fieldset><legend>Listado de Productos</legend>
-    <table aling=center border=1 cellpadding=3 cellspacing=0 width="100%">
-        <tr>
-            <th with="20%" alling="center">Codigo</th>
-            <th with="20%" alling="center">Nombre Producto</th>
-            <th with="20%" alling="center">Precio Unitario</th>
-            <th with="20%" alling="center">Editar</th>
-            <th with="20%" alling="center">Borrar</th>
-        </tr>
-        <!-- START BLOCK : block_listado_productos -->
-        <tr>
-            <td>{var_list_cod}</td>
-            <td> {var_list_nombre}</td>
-            <td> {var_list_precio}</td>
-            <td><a href="index.php?action=Producto::altaModificarProducto&id={var_list_cod}">Edit</a></td>
-            <td><a href="index.php?action=Producto::eliminarProducto&id={var_list_cod}">Eliminar</a></td>
-        </tr>
-        <!-- END BLOCK : block_listado_productos -->
-            
-        <!-- START BLOCK : block_no_listado_productos -->
-        <tr><td colspan=7 aling="center"> No hay productos cargados</td></tr>
-        <!-- END BLOCK : block_no_listado_productos -->
-    </table>	
-</fieldset>
-
+<h2>Listado de Productos</h2>
+<table class="table" aling=center>
+    <tr>
+        <th with="20%" alling="center">Codigo</th>
+        <th with="20%" alling="center">Nombre Producto</th>
+        <th with="20%" alling="center">Precio Unitario</th>
+        <th with="20%" alling="center"></th>
+        <th with="20%" alling="center"></th>
+    </tr>
+    <!-- START BLOCK : block_listado_productos -->
+    <tr>
+        <td>{var_list_cod}</td>
+        <td> {var_list_nombre}</td>
+        <td> {var_list_precio}</td>
+        <td><a href="index.php?action=Producto::altaModificarProducto&id={var_list_cod}" class="btn btn-warning">Edit</a></td>
+        <td><a href="index.php?action=Producto::eliminarProducto&id={var_list_cod}" class="btn btn-danger">Eliminar</a></td>
+    </tr>
+    <!-- END BLOCK : block_listado_productos -->
         
+    <!-- START BLOCK : block_no_listado_productos -->
+    <tr><td colspan=7 aling="center"> No hay productos cargados</td></tr>
+    <!-- END BLOCK : block_no_listado_productos -->
+</table>	
+</fieldset>
+    
+    

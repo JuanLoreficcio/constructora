@@ -1,16 +1,22 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
 <form id="frmModificarProducto" name="frmModificarProducto" method=post>
-    <input type="hidden" name="action" value="Producto::modificarProducto">
-    <!-- START BLOCK : block_modificar_productos -->
-    <input type="hidden" value={var_id} name="id">        
-    Producto:
-    <input type="text"  value="{var_nameProducto}" name="nombre" id="nombre">
-    <br><br>
-    Precio Unitario:
-    <input type="text"  value="{var_priceProducto}" name="price" id="price">
-    <br><br>
-    <!-- END BLOCK : block_modificar_productos -->
-    <input type="button" onclick="location.href='index.php?action=Producto::verProductos'" value=" Volver ">
-    <input type="submit" value="Guardar">
-        
+    <div class="form-group">
+        <input type="hidden" name="action" value="Producto::modificarProducto">
+        <!-- START BLOCK : block_modificar_productos -->
+        <input type="hidden" value={var_id} name="id">        
+        <label for="producto">Producto</label>
+        <input class="form-control" type="text"  value="{var_nameProducto}" name="nombre" id="nombre">
+        <br><br>
+        <label for="precio">Precio Unitario</label>
+        <input class="form-control" type="text"  value="{var_priceProducto}" name="price" id="price">
+        <br><br>
+        <!-- END BLOCK : block_modificar_productos -->
+        <div align="right">
+            <input class="btn btn-default" type="button" onclick="location.href='index.php?action=Producto::verProductos'" value=" Volver ">
+            <input class="btn btn-success" type="submit" value="Guardar">
+        </div>    
+    </div>    
 </form>
     

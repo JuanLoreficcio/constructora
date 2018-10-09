@@ -21,7 +21,7 @@ class Persona_Model{
   
   function verPersonas(){
       global $db;
-      $sql = "SELECT `id_persona`,`createDate`,`name`,`address`,`mail`,`phone`,`rol` FROM `persona` ORDER BY `name`;";
+      $sql = "SELECT `id_persona`,`createDate`,`name`,`address`,`mail`,`phone`,`rol` FROM `persona` ORDER BY `id_persona`;";
       $result = $db->query($sql);
       if($result){
           return $result;

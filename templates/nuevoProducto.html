@@ -1,12 +1,19 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
 <form id="frmAltaProducto" name="frmAltaProducto" method=post>
-    <input type="hidden" name="action" value="Producto::nuevoProducto">	
-    Producto:
-    <input type="text"  name="nameProducto">
-    <br><br>
-    Precio Unitario:
-    <input type="text"  name="priceProducto">
-    <br><br>
-    <input type="button" onclick="location.href='index.php?action=Producto::verProductos'" value=" Volver ">
-    <input type="submit" value="Guardar">
+    <div class="form-group">
+        <input type="hidden" name="action" value="Producto::nuevoProducto">	
+        <label for="producto">Producto</label>
+        <input type="text" class="form-control" name="nameProducto">
+        <br><br>
+        <label for="precio">Precio Unitario</label>
+        <input type="text" class="form-control" name="priceProducto">
+        <br><br>
+        <div align="right">
+            <input type="button" class="btn btn-default" onclick="location.href='index.php?action=Producto::verProductos'" value=" Volver ">
+            <input type="submit" class="btn btn-success" value="Guardar">
+        </div>
+    </div>
 </form> 
     

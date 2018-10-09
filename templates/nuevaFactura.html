@@ -1,89 +1,133 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    
 <form id="frmAltaProducto" name="frmAltaProducto" method=post>
-    <input type="hidden" name="action" value="Factura::nuevoFactura">	
-    <select name="cliente">
-        <!-- START BLOCK : block_cliente-->        
-        <option value="{idCliente}">{var_cliente}</option>    
-        <!-- END BLOCK : block_cliente-->        
-    </select>
-    <select name="tipo">
-        <option value="0">Compra</option> 
-        <option value="1">Venta</option> 
-    </select>
-    <select name="estado">
-        <option value="0">Presupuestado</option>  
-       <option value="1">Confirmado</option> 
-        <option value="2">Entregado</option> 
-        <option value="3">Pagado</option> 
-    </select>
-    <br><br>
-    <div id="metric_results"></div>
-    <button onclick="onSend(this.form);" >EnviarYAAA</button>
+    <div class="form-group">
+        <input type="hidden" name="action" value="Factura::nuevoFactura">	
+        <label for="persona">Destinatario</label>
+        <select class="form-control"  name="cliente">
+            <!-- START BLOCK : block_cliente-->        
+            <option value="{idCliente}">{var_cliente}</option>    
+            <!-- END BLOCK : block_cliente-->        
+        </select>
+            
+        <label for="tipo">Tipo Pedido</label>
+        <select class="form-control" name="tipo">
+            <option value="0">Compra</option> 
+            <option value="1">Venta</option> 
+        </select>
+            
+        <label for="estado">Estado Pedido</label>
+        <select class="form-control" name="estado">
+            <option value="0">Presupuestado</option>  
+            <option value="1">Confirmado</option> 
+            <option value="2">Entregado</option> 
+            <option value="3">Pagado</option> 
+        </select>
+        <br><br>   
+        <table >
+            <tr>
+                <td><a href="index.php?action=Factura::verTodasFactura" class="btn btn-default">Volver</a></td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+            <br><br>
+            <div id="metric_results"></div>
+            <td><button  class="btn btn-success" onclick="onSend(this.form);" >Terminar Pedido</button></td>
+            </tr>
+        </table>
+    </div>
 </form> 
-<!--<button onclick="processData()">Post-process</button>-->
-
-<div style="text-align: right">
-    <button class="btn btn-success" data-toggle="modal" data-target="#modalForm">
+    
+<div style="text-align: left">
+    <button class="btn btn-info" data-toggle="modal" data-target="#modalForm">
         Sumar producto 
     </button>
 </div>
-
-    <div class="modal fade" id="modalForm" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">X</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Producto</h4>
-                </div>
-                <div class="modal-body">
-                    <p class="statusMsg"></p>
-
-                    <form id="dataForm">
-                        <label for="producto" class="col-2 col-form-label">Producto lista</label>
-                        <div class="form-group row">
-                            <div class="col-10">
-                                <select class="form-control" id="producto" name="producto" onchange="elegirsaldo(this);">
-                                  <option data-id ="0" data-name="" data-price ="" >Productos</option>
-                                  <!-- START BLOCK : producto_factura-->
-                                  <option data-id ="{idProducto}" data-name="{var_producto}" data-price ="{precioProducto}" >{var_producto}</option> 
-                                  <!-- START BLOCK : producto_factura-->
-                                </select>
-                                </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="precio" class="col-2 col-form-label">Precio</label>
-                            <div class="col-10">
-                                <input id="precio" name="precio" class="form-control" type="text" value="">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="cantidad" class="col-2 col-form-label">Cantidad</label>
-                            <div class="col-10">
-                                <input id="cantidad" name="cantidad" class="form-control" type="text" value="">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <input class="btn btn-large btn-primary" value="Save" type="submit">
-                        </div>
-
-                    </form>
-
-                </div>
-                
-                
+    
+    
+<div class="modal fade" id="modalForm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">X</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Producto</h4>
             </div>
+            <div class="modal-body">
+                <p class="statusMsg"></p>
+                    
+                <form id="dataForm">
+                    <label for="producto" class="col-2 col-form-label">Producto lista</label>
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <select class="form-control" id="producto" name="producto" onchange="elegirsaldo(this);">
+                                <option data-id ="0" data-name="" data-price ="" >Productos</option>
+                                <!-- START BLOCK : producto_factura-->
+                                <option data-id ="{idProducto}" data-name="{var_producto}" data-price ="{precioProducto}" >{var_producto}</option> 
+                                <!-- START BLOCK : producto_factura-->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="precio" class="col-2 col-form-label">Precio</label>
+                        <div class="col-10">
+                            <input id="precio" name="precio" class="form-control" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="cantidad" class="col-2 col-form-label">Cantidad</label>
+                        <div class="col-10">
+                            <input id="cantidad" name="cantidad" class="form-control" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <input class="btn btn-large btn-primary" value="Agregar" type="submit">
+                    </div>
+                        
+                </form>
+                    
+            </div>
+                
+                
         </div>
     </div>
-
- 
+</div>
+    
+    
 <script>
     var data = [];
     var precio;
@@ -112,23 +156,23 @@
     }
     
     function elegirsaldo(el){ // recibimos por parametro el elemento select
-      // obtenemos la opción seleccionada .
-      idProducto =$('option:selected', el).attr('data-id');
-      nombreProducto =$('option:selected', el).attr('data-name');
-      document.getElementById("precio").value=$('option:selected', el).attr('data-price');
+        // obtenemos la opción seleccionada .
+        idProducto =$('option:selected', el).attr('data-id');
+        nombreProducto =$('option:selected', el).attr('data-name');
+        document.getElementById("precio").value=$('option:selected', el).attr('data-price');
     }
     
-       
+    
     function onSend(form){
-      input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = 'todos';
-      input.value = todos;
-      form.appendChild(input);
-      form.submit();
-}
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'todos';
+        input.value = todos;
+        form.appendChild(input);
+        form.submit();
+    }
 </script>
-
+    
 <script>
     function deleteTable(){
         var Table = document.getElementById("metric_results");
