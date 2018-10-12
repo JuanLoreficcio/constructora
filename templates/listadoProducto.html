@@ -2,24 +2,34 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     
 <div style="text-align: right">
-    <input class="btn btn-primary" alling=rigth type="button" onclick=" location.href='index.php?action=Producto::altaProducto' " value="Nuevo producto" name="boton" />
+    <button class="btn btn-primary" alling=rigth type="button" onclick=" location.href='index.php?action=Producto::altaProducto' ">
+        Nuevo Producto
+   </button>
 </div>
 <h2>Listado de Productos</h2>
 <table class="table" aling=center>
     <tr>
-        <th with="20%" alling="center">Codigo</th>
-        <th with="20%" alling="center">Nombre Producto</th>
-        <th with="20%" alling="center">Precio Unitario</th>
-        <th with="20%" alling="center"></th>
-        <th with="20%" alling="center"></th>
+        <th width="30%" alling="center">Codigo</th>
+        <th width="30%" alling="center">Nombre Producto</th>
+        <th width="30%" alling="center">Precio Unitario</th>
+        <th width="5%" alling="center"></th>
+        <th width="5%" alling="center"></th>
     </tr>
     <!-- START BLOCK : block_listado_productos -->
     <tr>
         <td>{var_list_cod}</td>
         <td> {var_list_nombre}</td>
         <td> {var_list_precio}</td>
-        <td><a href="index.php?action=Producto::altaModificarProducto&id={var_list_cod}" class="btn btn-warning">Edit</a></td>
-        <td><a href="index.php?action=Producto::eliminarProducto&id={var_list_cod}" class="btn btn-danger">Eliminar</a></td>
+        <td>
+            <button class="btn btn-warning" type="button" onclick=" location.href='index.php?action=Producto::altaModificarProducto&id={var_list_cod}'" >
+                <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+        </td>
+        <td>
+            <a href="index.php?action=Producto::eliminarProducto&id={var_list_cod}"class="btn btn-danger">
+                <span class="glyphicon glyphicon-trash"></span>
+            </a>
+        </td>
     </tr>
     <!-- END BLOCK : block_listado_productos -->
         

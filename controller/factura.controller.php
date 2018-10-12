@@ -1,31 +1,40 @@
 <?php
  class Factura_Controller{
  function nuevoFactura(){
+     //jason decode
         $stringPedidos = strip_tags($_REQUEST['todos']);
-        $pedidos= explode(',',$stringPedidos); 
+        //$pedidos= explode(',',$stringPedidos); 
+        $pedidos= json_decode($stringPedidos,TRUE); 
+
+        
         $id_persona =strip_tags($_REQUEST['cliente']);
         $id_tipo =strip_tags($_REQUEST['tipo']);
         $id_estado =strip_tags($_REQUEST['estado']);
-        
+//        var_dump($pedidos);
+//        die();
         $pedido = new Pedido_Model();
         $factura = new Factura_Model();
         $total =0;
         $tamArreglo = count($pedidos);
-        for($i=3;$i<$tamArreglo;$i+=5){
-            $total+=$pedidos[$i];
+        
+        for($i=0;$i<$tamArreglo;$i++){
+            if($pedidos[$i][5]){
+            $total+=$pedidos[$i][3];
+            }
         }
-
+   
         $id_factura = $factura->nuevoFactura($id_persona, $id_tipo+1, $id_estado+1, $total,0);
         
-        for($i=0;$i<$tamArreglo;$i+=5){
-            $j=$i;
-            $precioU =   $pedidos[$j+=1];
-            $cantidad=   $pedidos[$j+=1];
-            $subtotal=   $pedidos[$j+=1];
-            $id_producto=$pedidos[$j+=1];
-            $pedido->crearPedido($id_producto,$id_factura,$precioU,$cantidad,$subtotal);    
+        for($i=0;$i<$tamArreglo;$i++){
+            $precioU =$pedidos[$i][1];
+            $cantidad=$pedidos[$i][2];
+            $subtotal=$pedidos[$i][3];
+            $id_producto=$pedidos[$i][4];
+            if($pedidos[$i][5]){
+                $pedido->crearPedido($id_producto,$id_factura,$precioU,$cantidad,$subtotal);
+            }
         }
-        return $this->verTodasFactura();
+        return $this->verFacturaId($id_factura);
     }
     
     function modificarFactura($id_factura,$fecha,$id_persona,$id_tipo,$id_estado,$total,$descuento){
@@ -72,7 +81,36 @@
         $result = $factura->verFacturaFecha($fecha);
         return $result;
     }
-    
+    function verFacturaId($id_factura){
+        $tpl = new TemplatePower("templates/verFactura.html");
+        $tpl->prepare();
+        $factura = new Factura_Model();
+        $resulta = $factura->verFactura($id_factura);
+        $tpl->gotoBlock("_ROOT");
+        foreach ($resulta as $result){
+            $tpl->assign("var_factura_code",$result["id_factura"]);
+            $tpl->assign("var_factura_fecha",$result["fecha"]);
+            $tpl->assign("var_persona_name",$result["persona_name"]);
+            $tpl->assign("var_persona_address",$result["address"]);
+            $tpl->assign("var_persona_mail",$result["mail"]);
+            $tpl->assign("var_factura_tipo",$result["tipo_name"]);
+            $tpl->assign("var_factura_estado",$result["estado_name"]);
+        }
+        
+        
+        $pedido = $factura->verPedidoFactura($id_factura);
+        $tpl->gotoBlock("_ROOT");
+        foreach ($pedido as $r){
+            $tpl->newBlock("block_factura");
+            $tpl->assign("var_pedido_name",$r["name"]);
+            $tpl->assign("var_pedido_price",$r["precio"]);
+            $tpl->assign("var_pedido_cantidad",$r["cantidad"]);
+            $tpl->assign("var_pedido_total",$r["total"]);
+        }
+        $tpl->gotoBlock("_ROOT");
+        $tpl->assign("var_factura_total",$result["total"]);
+        return $tpl->getOutputContent();
+    }
     function verFactura(){
         $id_factura=strip_tags($_REQUEST["id"]);
         $tpl = new TemplatePower("templates/verFactura.html");
