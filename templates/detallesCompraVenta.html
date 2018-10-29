@@ -1,0 +1,151 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+<style type="text/css" media="all">
+   <!--
+   h4{display: inline;}
+   -->
+</style>
+
+<div class="table-responsive">
+    <h2>{var_list_titulo}</h2>
+    <table class="table" aling=center >
+        <tr>
+            <th alling="center">Fecha</th>
+            <th alling="center">Codigo</th>
+            <th alling="center">Gastos</th>
+            <th alling="center">Abonado</th>
+            <th alling="center">Detalles</th>
+        </tr>
+        
+        <!-- START BLOCK : block_listado_cuenta -->
+        <tr>
+            <td>
+                {var_list_fecha} 
+            </td>
+            <td> 
+                {var_list_nro_pedido}
+            </td>
+            <td class="text-danger"> 
+                {var_cuenta}
+            </td>
+            <td class="text-succes"> 
+                {var_abonado}
+            </td>
+            <td>
+            <div style="text-align: left">
+                <a class="btn btn btn-info" href="{link}">
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>    
+            </div>
+            </td> 
+                <!--{var_list_nro_pedido}-->
+            
+        </tr>
+        <!-- END BLOCK : block_listado_cuenta -->
+        
+        <tr><td><br /></td></tr>
+        
+        <tr>
+            <th colspan="0">
+                <h4>ESTADO DE CUENTA:  </h4> 
+            </th>
+            <th colspan="1">
+                <h4 class="{clase_estilo}">{var_estado_cuenta}</h4>
+            </th>
+            <th colspan="1">
+                ${var_debe}
+            </th>
+            <th colspan="1">
+                ${var_haber}
+            </th>
+            <th colspan="1">
+                 <button class="btn btn-success"  onclick="elegirmonto('{var_id_persona}');">
+                    Abonar
+                </button>
+            </th>
+        </tr> 
+    </table>
+   
+
+    <div class="modal fade" data-backdrop="false" data-dismiss="modal" id="modalForm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">X</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Producto</h4>
+            </div>
+            <div class="modal-body">
+                <p class="statusMsg"></p>
+                    <div class="form-group row">
+                        <label for="fechaActual" class="col-10 col-form-label">Fecha</label>
+                        <div class="col-10">
+                            <input id="fecha" name="fecha" class="form-control" type="text" value="{var_fecha}">
+                        </div>
+                        
+                        <label for="monto" class="col-2 col-form-label" >Monto a abonar</label>
+                        <div class="col-10">
+                            <input id="monto" name="monto" class="form-control" type="text" value="{var_estado_cuenta}">
+                        </div>
+                        <label for="detalle" class="col-2 col-form-label" >Detalle: </label>
+                        <div class="col-10">
+                            <textarea id="detalle" name="detalle" class="form-control" rows="3" type="text"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <input  id="adicionar" class="btn btn-large btn-primary" value="Agregar" type="button">
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<form id="frmCobro" name="frmCobro" method=post>
+    <div class="form-group">
+        <input type="hidden" name="action" value="Cobros::nuevoCobro">
+    </div>
+</form>
+<script>
+    var fecha;
+    var persona;
+    var detalle=null;
+    var monto;
+    var data=[];
+    
+    
+    $("#adicionar").click(function(event) {
+        monto = document.getElementById("monto").value;
+        fecha = document.getElementById("fecha").value;
+        detalle = document.getElementById("detalle").value;
+        
+        data.push(fecha);
+        data.push(monto);
+        data.push(detalle);
+        data.push(persona);
+        $("#modalForm").modal("hide");
+        onSend(frmCobro);
+        
+    });
+    
+    function elegirmonto(per){ // recibimos por parametro el elemento select
+        $("#modalForm").modal("show");
+        persona=per;
+    }
+    
+    function onSend(form){
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'data';
+        input.value = JSON.stringify(data);
+        form.appendChild(input);
+        form.submit();
+    }
+    
+    
+</script>

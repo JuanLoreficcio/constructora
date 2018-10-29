@@ -24,7 +24,6 @@
         }
    
         $id_factura = $factura->nuevoFactura($id_persona, $id_tipo+1, $id_estado+1, $total,0);
-        
         for($i=0;$i<$tamArreglo;$i++){
             $precioU =$pedidos[$i][1];
             $cantidad=$pedidos[$i][2];
@@ -167,4 +166,24 @@
                
         return $tpl->getOutputContent();
     }
+    
+    function verFacturasPersona($id_persona){
+        $var_factura_persona= new Factura_Model();
+        $row = $var_factura_persona->verFacturaPersona($id_persona);
+        $respuesta =[];
+        $listado;
+        foreach ($row as $r) {
+            $pedidos = $var_factura_persona->verPedidoFactura($r);
+            foreach ($pedidos as $p) {
+                $listado+= $p." ";
+            }
+            $aux =[$detalle=>$listado,$numero=>$r];
+            array_push($respuesta, $aux);
+            $aux=[];
+        }
+        //BUSCAR UN VECTOR AUXILIAR QUE ME GUARDE LA DUPLA DE COD_FACTURA Y CADENA
+        //PARA DEVOLVER VECTOR RESPUESTAS
+        return $respuesta;
+    }
+
  }

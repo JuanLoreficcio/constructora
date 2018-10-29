@@ -97,9 +97,9 @@ nav {
 
 #main-content {
 	background: white;
-	width: 90%;
-	max-width: 800px;
-	margin: 20px auto;
+	width: 100%;
+	max-width: auto;
+	margin: 5000px auto;
 	box-shadow: 0 0 10px rgba(0,0,0,.1);
 }
  

@@ -4,11 +4,11 @@
 <div style="text-align: right">
     <input class="btn btn-primary" alling=rigth type="button" onclick=" location.href='index.php?action=Persona::altaPersona' " value="Nueva Persona" name="boton" /></div>
 <div class="table-responsive">
-    <h2>Listado de Personas</h2>
+    <h2>Listado de {var_list_rol}</h2>
     <table class="table" aling=center >
         <tr>
             <th width="42.5%" alling="center">Nombre y Apellido</th>
-            <th width="42.5%" alling="center">Rol</th>
+            <th width="42.5%" alling="center">Cuenta</th>
             <th width="5%" alling="center"></th>
             <th width="5%" alling="center"></th>
             <th width="5%" alling="center"></th>
@@ -16,7 +16,11 @@
         <!-- START BLOCK : block_listado_personas -->
         <tr>
             <td>{var_list_nam}</td>
-            <td> {var_list_rol}</td>
+            <td> 
+                <a href="index.php?action=Persona::verPersonaCuenta&id={var_lis_cod}" class="{color_cuenta}">
+                    {var_list_cuenta}
+                </a>
+            </td>
             <td> 
                 <a href="index.php?action=Persona::verPersona&id={var_lis_cod}" class="btn btn-info">
                     <span class="glyphicon glyphicon-eye-open"></span>

@@ -15,7 +15,7 @@
         include("controller/cobros.controller.php");
         include("controller/factura.controller.php");
         
-    // Models
+        // Models
 	include("model/persona.model.php");
         include("model/usuario.model.php");
         include("model/producto.model.php");

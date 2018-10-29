@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <title>Cabecera fija</title>
+            
+        <link rel="stylesheet" href="recursos/_html/style.css">
+    </head>
+        
+    <body>
+        
+        <header id="main-header">
+            
+            <a id="logo-header" href="#">
+                <span class="site-name">Comercio</span>
+                <span class="site-desc">Gestor de facturas</span>
+            </a> <!-- / #logo-header -->
+                
+            <nav>
+                <ul>
+                    <li><a href="index.php">Inicio</a></li>
+                    <li><a href="index.php?action=Producto::verProductos">Productos</a></li>
+                    <li><a href="index.php?action=Persona::verPersonas">Personas</a></li>
+                    <li><a href="index.php?action=Factura::verTodasFactura">Facturas</a></li>
+                </ul>
+            </nav><!-- / nav -->
+                
+        </header><!-- / #main-header -->
+            
+            
+        <section id="main-content">
+            
+            <article>
+                    <div class="content">
+                    {contenido}
+                </div>
+                    
+            </article> <!-- /article -->
+                
+        </section> <!-- / #main-content -->
+            
+            
+            
+        <footer id="main-footer">
+            <p>&copy; 2018 <a href="http://Cipax.com.ar">Cipax.com.ar</a></p>
+        </footer> 
+            
+    </body>
+</html>

@@ -2,11 +2,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     
 <div style="text-align: right">
-    <input class="btn btn-primary" alling=rigth type="button" onclick=" location.href='index.php?action=Factura::altaFactura' " value="Nuevo Factura" name="boton">
+    <input class="btn btn-primary" alling=rigth type="button" onclick=" location.href='index.php?action=Factura::altaFactura' " value="Nuevo Pedido" name="boton">
 </div>
 <div class="table-responsive">
     <h2>Listado de Facturas</h2>
-    <table class="table" aling=center width="100%">
+    <table class="table" colspan=6 aling=center width="100%">
         <tr>
             <th with="20%" alling="center">Codigo</th>
             <th with="20%" alling="center">Fecha</th>
@@ -23,8 +23,8 @@
             <td>{var_list_estado}</td>
             <td>{var_list_total}</td>
             <td>
-                <a class="btn btn-info" href="index.php?action=Factura::verFactura&id={var_list_cod}">
-                 <span class="glyphicon glyphicon-eye-open"></span>
+                <a class="btn btn btn-info" href="index.php?action=Factura::verFactura&id={var_list_cod}">
+                    <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
             </td>
         </tr>

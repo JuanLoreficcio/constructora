@@ -1,39 +1,39 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<input type="hidden" name="idPersona" value="{var_lis_cod}">
+<input type="hidden" name="id" value="{var_lis_cod}">
 <div class="form-group">
     <p class="lead">
          <table class="table" aling=center >
+        <tr>
+            <th alling="center">Codigo:</th>
+            <th alling="center">{var_lis_cod}</th>
+        </tr>
         <tr>
             <th alling="center">Nombre y Apellido:</th>
             <th alling="center">{apellidoNombre}</th>
         </tr>
         
         <tr>
-            <th alling="center">Direccion:</th>
-            <th alling="center">{direccion}</th>
+            <th alling="center">Fecha</th>
+            <th alling="center">{fecha}</th>
         </tr>
          
         <tr>
-            <th alling="center">Mail:</th>
-            <th alling="center">{mail}</th>
+            <th alling="center">Monto:</th>
+            <th alling="center">{monto}</th>
         </tr>
 
         <tr>
-            <th alling="center">Telefono:</th>
-            <th alling="center">{phone}</th>
+            <th alling="center">Detalle:</th>
+            <th alling="center">{detalle}</th>
         </tr>
 
-        <tr>
-            <th alling="center">Rol:</th>
-            <th alling="center">{rol}</th>
-        </tr>
     </table>
     </p>
 </div>
 <br><br>
-<p><input class="btn btn-default" type="button" onclick="location.href='index.php?action=Persona::verPersonas&type={var_type}'" value=" Volver ">
+<p><input class="btn btn-default" type="button" onclick="location.href='index.php?action=Persona::verPersonaCuenta&id={idPersona}'" value=" Volver ">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -53,7 +53,6 @@
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a class="btn btn-warning" href="index.php?action=Persona::altaModificarPersona&id={var_lis_cod}">Edit</a>
-    <a class="btn btn-danger"  href="index.php?action=Persona::eliminarPersona&id={var_lis_cod}">Eliminar</a>
+    <a class="btn btn-warning" href="index.php?action=Cobros::altaModificarCobro&id={var_lis_cod}">Edit</a>
+    <a class="btn btn-danger"  href="index.php?action=Cobros::eliminarCobro&id={var_lis_cod}&per={idPersona}">Eliminar</a>
 </p>
-

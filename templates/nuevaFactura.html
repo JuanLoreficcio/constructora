@@ -5,12 +5,19 @@
 <form id="frmAltaProducto" name="frmAltaProducto" method=post>
     <div class="form-group">
         <input type="hidden" name="action" value="Factura::nuevoFactura">   
-        <label for="persona">Destinatario</label>
+        <label for="persona">Fecha:</label>
+        <input id="fechaActual" name="fechaActual" class="form-control" type="text" value="{var_fecha}">
+        
+        <label for="persona">Fecha de entrega:</label>
+        <input id="fechaEntrega" name="fechaEntrega" class="form-control" type="text" value="{var_fecha}">
+        <br><br><br>
+        <label for="persona">Destinatario <input class="btn btn-primary" alling=rigth type="button" onclick="" value="Nueva Persona" name="boton" /> </label>
         <select class="form-control"  name="cliente">
             <!-- START BLOCK : block_cliente-->        
             <option value="{idCliente}">{var_cliente}</option>    
             <!-- END BLOCK : block_cliente-->        
         </select>
+        
         
         <label for="tipo">Tipo Pedido</label>
         <select class="form-control" name="tipo">
@@ -28,7 +35,7 @@
         <br><br>
         <table  id="mytable" class="table table-bordered table-hover ">
           <tr>
-            <th>Nobmre</th>
+            <th>Nombre</th>
             <th>Precio</th>
             <th>Cantidad</th>
             <th>Subtotal</th>
@@ -37,14 +44,11 @@
         </tr>
     </table>  
 </div>
-
 </form> 
-
 <div style="text-align: left">
     <button class="btn btn-info" data-toggle="modal" data-target="#modalForm">
         Sumar producto 
-    </button>
-    
+    </button>    
 </div>
 
  <table >
@@ -88,7 +92,7 @@
     </table>
 
 
-<div class="modal fade" id="modalForm" role="dialog">
+<div class="modal fade" data-backdrop="false" data-dismiss="modal" id="modalForm" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -138,9 +142,6 @@
         </div>
     </div>
 </div>
-
-
-
 <script>
 	function hola(){
 		document.forms["frmAltaProducto"].submit();
@@ -152,7 +153,6 @@
     var nombreProducto;
     var todos = [];
     $("#adicionar").click(function(event) {
-
         event.preventDefault();
         data.push(nombreProducto);
         var precioActual = document.getElementById("precio").value;

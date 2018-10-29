@@ -4,8 +4,13 @@ class Producto_Controller{
         $nameProducto = strip_tags($_REQUEST ["nameProducto"]);
         $priceProducto = strip_tags($_REQUEST ["priceProducto"]);
         $var_producto = new Producto_model();
-        $var_producto->nuevoProducto($nameProducto, $priceProducto);
-        return $this->verProductos();
+        if(is_string($nameProducto)){
+            $var_producto->nuevoProducto($nameProducto, $priceProducto);
+            return $this->verProductos();
+        } else {
+            echo  "no mono";
+        }
+        
     }
     
     function modificarProducto (){

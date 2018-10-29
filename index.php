@@ -59,13 +59,13 @@ if ($_REQUEST["action"] == "") {
 	$tpl = new TemplatePower("recursos/_html/index.html");
 	$tpl->prepare();
 	/*$tpl->assign("fecha_completa",date("d-m-y"));
-	$tpl->assign("aplicacion","Cine");
+	$tpl->assign("aplicacion","Cine");*/
 	
 //===========================================================================================================
 // LEVANTA TEMPLATE	|
 //-------------------		
 
-	$tpl->gotoBlock("_ROOT");*/
+	$tpl->gotoBlock("_ROOT");
 	$tpl->assign("contenido",$html);
 	$html=$tpl->getOutputContent();
 	echo $html;

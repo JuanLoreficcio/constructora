@@ -6,6 +6,10 @@
         <link rel="stylesheet" href="recursos/_html/styleFactura.css" media="all" />
     </head>
     <body>
+        <div id="pepe" style="margin: 0px 0px 10px 50px; 
+             position: relative;
+             width: 21cm;
+             height: 20.7cm;">
         <header class="clearfix">
             <div id="logo">
                 <img src="recursos/_html/logo.png">
@@ -61,6 +65,26 @@
         <footer>
             Invoice was created on a computer and is valid without the signature and seal.
         </footer>
+        </div>
         <input class="btn btn-default" type="button" onclick="location.href='index.php?action=Factura::verTodasFactura'" value=" Volver ">
-    </body>
+        <button class="btn btn-default" type="button" onClick="imprimir(pepe)">
+            <span class="glyphicon glyphicon-print"></span>
+        </button>
+        </body>
 </html>
+
+<script>
+    	function imprimir(elemento){
+  var ventana = window.open('', 'PRINT', 'height=400,width=600');
+  ventana.document.write('<html><head>');
+  ventana.document.write('<link rel="stylesheet" href="recursos/_html/styleFactura.css" />'); //Aquí agregué la hoja de estilos
+  ventana.document.write('</head><body >');
+  ventana.document.write(elemento.innerHTML);
+  ventana.document.write('</body></html>');
+  ventana.document.close();
+  ventana.focus();
+  ventana.print();
+  ventana.close();
+  return true;
+    }
+</script>

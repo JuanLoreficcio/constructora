@@ -57,18 +57,24 @@ class Factura_Model{
                . "AND f.id_persona = p.id_persona "
                . "AND f.id_estado = e.id_estado "
                . "AND f.id_tipo = t.id_tipo;";
-      
        $respuesta = $db->query($sql);
        return $respuesta;
     }
     
     function verPedidoFactura($id_factura){
-        global $db; 
-       $sql = "SELECT p.name, cantidad, precio, ped.total "
-               . "FROM pedido ped, producto p ,factura f "
-               . "WHERE ped.id_factura = '$id_factura' "
+       global $db;
+       $sql = "SELECT f.fecha,id_cobro,monto,f.total as factura_total, p.name, cantidad, precio, ped.total "
+               . "FROM pedido ped, producto p ,factura f,cobros "
+               . "WHERE ped.id_factura = '$id_factura'"
                . "AND ped.id_factura = f.id_factura "
                . "AND ped.id_producto = p.id_producto;";
+       $respuesta = $db->query($sql);
+       return $respuesta;
+    }
+    
+    function verFacturasPersona($id_persona ){
+       global $db; 
+       $sql = "SELECT id_factura FROM `factura` WHERE id_persona='$id_persona'";
        $respuesta = $db->query($sql);
        return $respuesta;
     }
