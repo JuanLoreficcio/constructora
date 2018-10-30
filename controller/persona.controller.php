@@ -1,68 +1,88 @@
 <?php
-class Persona_Controller{
-    function nuevaPersona (){
-        $name= strip_tags($_REQUEST["namePersona"]);
-        $adress=strip_tags($_REQUEST["dirPersona"]);
-        $mail=strip_tags($_REQUEST["mailPersona"]);
-        $phone=strip_tags($_REQUEST["telPersona"]); 
-        $rol=strip_tags($_REQUEST["rol"]);
+
+class Persona_Controller {
+
+    function nuevaPersona() {
+        $name = strip_tags($_REQUEST["namePersona"]);
+        $adress = strip_tags($_REQUEST["dirPersona"]);
+        $mail = strip_tags($_REQUEST["mailPersona"]);
+        $phone = strip_tags($_REQUEST["telPersona"]);
+        $rol = strip_tags($_REQUEST["rol"]);
         $var_persona = new Persona_Model;
         $respuesta = $var_persona->nuevaPersona($name, $adress, $mail, $phone, $rol);
-        return $this->verPersonas();
-  }
-      
-    function modificarPersona (){
-        $id_persona= strip_tags($_REQUEST["id"]);
-        $date=strip_tags($_REQUEST["fecha"]);
-        $name=strip_tags($_REQUEST["nombre"]);
-        $adress=strip_tags($_REQUEST["direccion"]);
-        $mail=strip_tags($_REQUEST["mail"]);
-        $phone=strip_tags($_REQUEST["phone"]);
-        $rol=strip_tags($_REQUEST["rol"]);
+        $cadena;
+        if($rol==cliente){
+            $cadena = "Location: index.php?action=Persona::verPersonas&type=cliente";
+        } else {
+            $cadena = "Location: index.php?action=Persona::verPersonas&type=proveedor";
+        }
+        return header($cadena);
+        
+    }
+
+    function modificarPersona() {
+        $id_persona = strip_tags($_REQUEST["id"]);
+        $date = strip_tags($_REQUEST["fecha"]);
+        $name = strip_tags($_REQUEST["nombre"]);
+        $adress = strip_tags($_REQUEST["direccion"]);
+        $mail = strip_tags($_REQUEST["mail"]);
+        $phone = strip_tags($_REQUEST["phone"]);
+        $rol = strip_tags($_REQUEST["rol"]);
         $var_persona = new Persona_Model();
-        $respuesta = $var_persona->modificarPersona($id_persona,$date, $name, $adress, $mail, $phone, $rol);
+        $respuesta = $var_persona->modificarPersona($id_persona, $date, $name, $adress, $mail, $phone, $rol);
         return $this->verPersonas();
-  }
-      
-    function eliminarPersona(){
+    }
+
+    function eliminarPersona() {
         $id_persona = strip_tags($_REQUEST["id"]);
         $var_persona = new Persona_Model();
         $respuesta = $var_persona->eliminarPersona($id_persona);
-        return $this->verPersonas();
-  }
-      
-    function verPersona(){
-        $id_Persona= strip_tags($_REQUEST["id"]);
+        $roles= $var_persona->verPersona($id_persona);
+        $rol=-1;
+        foreach ($roles as $r){
+            $rol=$r["rol"];
+        }
+        if($rol==1){
+            $cadena = "Location: index.php?action=Persona::verPersonas&type=cliente";
+        }else{
+            $cadena = "Location: index.php?action=Persona::verPersonas&type=proveedor";
+        }
+        return header($cadena);
+    }
+
+    function verPersona() {
+        $id_Persona = strip_tags($_REQUEST["id"]);
         $var_persona = new Persona_Model;
         $respuesta = $var_persona->verPersona($id_Persona);
         $tpl = new TemplatePower("templates/verPersona.html");
         $tpl->prepare();
-            
-        foreach ($respuesta as $respuest){
-            
-        $tpl->assign("var_lis_cod",$respuest["id_persona"]);
-        $tpl->assign("apellidoNombre",$respuest["name"]);
-        $tpl->assign("direccion",$respuest["address"]);
-        $tpl->assign("phone",$respuest["phone"]);
-        $tpl->assign("mail",$respuest["mail"]);
-        $type;
-        if($respuest["rol"] == cliente){
-                $tpl->assign("rol","Cliente");
-                $type="cliente";
-                }else{
-                $tpl->assign("rol","Proveedor");
-                $type="proveedor";
-                }
+
+        foreach ($respuesta as $respuest) {
+
+            $tpl->assign("var_lis_cod", $respuest["id_persona"]);
+            $tpl->assign("apellidoNombre", $respuest["name"]);
+            $tpl->assign("direccion", $respuest["address"]);
+            $tpl->assign("phone", $respuest["phone"]);
+            $tpl->assign("mail", $respuest["mail"]);
+            $type;
+            if ($respuest["rol"] == cliente) {
+                $tpl->assign("rol", "Cliente");
+                $type = "cliente";
+            } else {
+                $tpl->assign("rol", "Proveedor");
+                $type = "proveedor";
+            }
         }
-        $tpl->assign("var_type",$type);
+        $tpl->assign("var_type", $type);
         return $tpl->getOutputContent();
     }
-        
-    function verPersonasRol($rol){
+
+    function verPersonasRol($rol) {
         $var_persona = new Persona_Model();
         $respuesta = $var_persona->verPersonasRol($rol);
         return $respuesta;
     }
+
     function verPersonas() {
         $type = $_GET["type"];
         $tpl = new TemplatePower("templates/listadoPersonas.html");
@@ -70,6 +90,7 @@ class Persona_Controller{
         $tpl->gotoBlock("_ROOT");
         $var_persona = new Persona_Model();
         $respuesta = $var_persona->listarSaldos();
+        
         if ($type == "cliente") {
             $tpl->assign("var_list_rol", "Clientes");
             foreach ($respuesta as $r) {
@@ -97,11 +118,20 @@ class Persona_Controller{
                     if ($dif <= 0) {
                         $tpl->assign("var_list_cuenta", "$ " . abs($dif));
                         $tpl->assign("color_cuenta", "btn btn-success");
-                    } else {
+                    } elseif($dif>0) {
                         $tpl->assign("var_list_cuenta", "-$ " . $dif);
                         $tpl->assign("color_cuenta", "btn btn-danger");
+                    } else {
+                        $tpl->assign("var_list_cuenta", "");
+                        $tpl->assign("color_cuenta", "");
                     }
                 }
+            }
+            $personaNocliente = $var_persona->listarPersonas(1);
+            foreach ($personaNocliente as $p) {
+                $tpl->newBlock("block_listado_personas");
+                $tpl->assign("var_list_nam", $p["name"]);
+                $tpl->assign("var_lis_cod", $p["id_persona"]);
             }
         } else {
             $tpl->assign("var_list_rol", "Proveedores");
@@ -138,116 +168,120 @@ class Persona_Controller{
                     }
                 }
             }
+            $personaNocliente = $var_persona->listarPersonas(0);
+            foreach ($personaNocliente as $p) {
+                $tpl->newBlock("block_listado_personas");
+                $tpl->assign("var_list_nam", $p["name"]);
+                $tpl->assign("var_lis_cod", $p["id_persona"]);
+            }
         }
 
         return $tpl->getOutputContent();
     }
 
-    function altaModificarPersona(){
+    function altaModificarPersona() {
         $idPersona = strip_tags($_REQUEST["id"]);
         $persona = new Persona_model();
         $respuesta = $persona->verPersona($idPersona);
-            
+
         $tpl = new TemplatePower("templates/modificarPersona.html");
         $tpl->prepare();
         $tpl->gotoBlock("_ROOT");
-        foreach ($respuesta as $res){
-            $tpl->assign("var_lis_cod",$res["id_persona"]);
-            $tpl->assign("var_lis_fech",$res["createDate"]);
-            $tpl->assign("apellidoNombre",$res["name"]);
-            $tpl->assign("direccion",$res["address"]);
-            $tpl->assign("phone",$res["phone"]);
-            $tpl->assign("mail",$res["mail"]);
-            $type="";
-            if($res["rol"]==cliente){
-                $type="cliente";
-                $tpl->assign("defecto0","");
-                $tpl->assign("defecto1","selected");
-            }else{
-                $type="proveedor";
-                $tpl->assign("defecto0","selected");
-                $tpl->assign("defecto1","");
+        foreach ($respuesta as $res) {
+            $tpl->assign("var_lis_cod", $res["id_persona"]);
+            $tpl->assign("var_lis_fech", $res["createDate"]);
+            $tpl->assign("apellidoNombre", $res["name"]);
+            $tpl->assign("direccion", $res["address"]);
+            $tpl->assign("phone", $res["phone"]);
+            $tpl->assign("mail", $res["mail"]);
+            $type = "";
+            if ($res["rol"] == cliente) {
+                $type = "cliente";
+                $tpl->assign("defecto0", "");
+                $tpl->assign("defecto1", "selected");
+            } else {
+                $type = "proveedor";
+                $tpl->assign("defecto0", "selected");
+                $tpl->assign("defecto1", "");
             }
         }
-        $tpl->assign("var_type",$type);    
+        $tpl->assign("var_type", $type);
         return $tpl->getOutputContent();
     }
-    function altaPersona(){
+
+    function altaPersona() {
         $tpl = new TemplatePower("templates/nuevaPersona.html");
         $tpl->prepare();
         $tpl->gotoBlock("_ROOT");
         return $tpl->getOutputContent();
-            
     }
-    function verPersonaCuenta(){
-        $id_persona=$_REQUEST["id"];
+
+    function verPersonaCuenta() {
+        $id_persona = $_REQUEST["id"];
         $tpl = new TemplatePower("templates/detallesCompraVenta.html");
         $tpl->prepare();
         $tpl->gotoBlock("_ROOT");
-        
-        $fecha= getdate();
-        $d=$fecha["mday"];
-        $m=$fecha["mon"];
-        $a=$fecha["year"];
-        $conFecha=$d."-".$m."-".$a;
-       
-        $cadena="";
-        $var_persona= new Persona_Model();
+
+        $fecha = getdate();
+        $d = $fecha["mday"];
+        $m = $fecha["mon"];
+        $a = $fecha["year"];
+        $conFecha = $d . "-" . $m . "-" . $a;
+
+        $cadena = "";
+        $var_persona = new Persona_Model();
         $persona = $var_persona->verPersona($id_persona);
         foreach ($persona as $person) {
-            if($person["rol"]==cliente){
-                $cadena="Cliente: ".$person["name"];
+            if ($person["rol"] == cliente) {
+                $cadena = "Cliente: " . $person["name"];
             } else {
-                $cadena="Proveedor: ".$person["name"];
+                $cadena = "Proveedor: " . $person["name"];
             }
         }
-        $row = $var_persona->verCuentaFactura($id_persona);        
-        $tpl->assign("var_list_titulo",$cadena);
-       
-        $debe=0;
-        $haber=0;
-        
+        $row = $var_persona->verCuentaFactura($id_persona);
+        $tpl->assign("var_list_titulo", $cadena);
+
+        $debe = 0;
+        $haber = 0;
+
         foreach ($row as $r) {
             $tpl->newBlock("block_listado_cuenta");
-            $tpl->assign("var_list_fecha",$r["fecha"]); 
-            $tpl->assign("var_list_nro_pedido",$r["codigo"]);
-            
-            if($r["tipo"]=='factura'){
-                $tpl->assign("var_cuenta",$r["precio"]);
-                $tpl->assign("var_abonado","");
-                $tpl->assign("link","index.php?action=Factura::verFactura&id=".$id_persona);
-                $debe+=$r["precio"];
-            }else{
-                $tpl->assign("var_cuenta","");
-                $tpl->assign("var_abonado",$r["precio"]);
-                $tpl->assign("link","index.php?action=Cobros::verCobro&id=".$r["codigo"]);
-                $haber+=$r["precio"];
-            }
-            
-            
-            $tpl->assign("var_id_persona",$id_persona);
-            //$tpl->assign("var_list_fecha",$r["fecha_cobro"]);
+            $tpl->assign("var_list_fecha", $r["fecha"]);
+            $tpl->assign("var_list_nro_pedido", $r["codigo"]);
 
-            
-           
+            if ($r["tipo"] == 'factura') {
+                $tpl->assign("var_cuenta", $r["precio"]);
+                $tpl->assign("var_abonado", "");
+                $tpl->assign("link", "index.php?action=Factura::verFactura&id=" . $id_persona);
+                $debe += $r["precio"];
+            } else {
+                $tpl->assign("var_cuenta", "");
+                $tpl->assign("var_abonado", $r["precio"]);
+                $tpl->assign("link", "index.php?action=Cobros::verCobro&id=" . $r["codigo"]);
+                $haber += $r["precio"];
+            }
+
+
+            $tpl->assign("var_id_persona", $id_persona);
+            //$tpl->assign("var_list_fecha",$r["fecha_cobro"]);
         }
-        
+
         $tpl->gotoBlock("_ROOT");
-        $actual=$debe-$haber;
-        $tpl->assign("var_debe",$debe);
-        $tpl->assign("var_haber",$haber);
-        $tpl->assign("var_fecha",$conFecha);
-        $tpl->assign("var_id_persona",$id_persona);
-        if($actual>0){
-            $tpl->assign("clase_estilo","text-danger");
-            $tpl->assign("var_estado_cuenta",$actual);
-        }else{
-            $tpl->assign("clase_estilo","text-success");
-            $tpl->assign("var_estado_cuenta",abs($actual));
+        $actual = $debe - $haber;
+        $tpl->assign("var_debe", $debe);
+        $tpl->assign("var_haber", $haber);
+        $tpl->assign("var_fecha", $conFecha);
+        $tpl->assign("var_id_persona", $id_persona);
+        if ($actual > 0) {
+            $tpl->assign("clase_estilo", "text-danger");
+            $tpl->assign("var_estado_cuenta", $actual);
+        } else {
+            $tpl->assign("clase_estilo", "text-success");
+            $tpl->assign("var_estado_cuenta", abs($actual));
         }
-        
-        
+
+
         return $tpl->getOutputContent();
     }
-}
 
+}

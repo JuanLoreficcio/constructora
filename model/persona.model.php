@@ -4,7 +4,7 @@ class Persona_Model{
       global $db;
       $sql = "INSERT INTO `persona`(`id_persona`, `createDate`, `name`, `address`, `mail`, `phone`, `rol`) ".
              "VALUES (NULL,CURRENT_DATE(),'$name','$adress', '$mail', '$phone', '$rol')";
-      $db->insert($sql);
+      return $db->insert($sql);
   }
     function modificarPersona ($id_persona,$date,$name, $adress, $mail, $phone, $rol){
       global $db;
@@ -138,5 +138,17 @@ class Persona_Model{
           return false;
       }
   }
-  
+  function listarPersonas($rol){
+      global $db;
+      $sql = "SELECT * FROM `persona` "
+              . "WHERE NOT EXISTS (SELECT * FROM factura WHERE factura.id_factura=persona.id_persona) "
+              . "AND persona.rol = '$rol'  "
+              . "ORDER BY createDate;";
+      $result = $db->query($sql);
+      if($result){
+          return $result;
+      }else{ 
+          return false;
+      }
+  }
 }

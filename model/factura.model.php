@@ -1,9 +1,9 @@
 <?php
 class Factura_Model{
-    function nuevoFactura($id_persona,$id_tipo,$id_estado,$total,$descuento){
+    function nuevoFactura($id_persona,$id_tipo, $id_estado,$total,$fecha,$fecha_entrega,$descuento){
        global $db; 
-       $sql = "INSERT INTO `factura` (`id_factura`, `id_persona`, `id_tipo`, `id_estado`, `total`, `fecha`, `descuento`) "
-               . "VALUES (NULL, '$id_persona', '$id_tipo', '$id_estado', '$total', CURRENT_DATE(), '$descuento');";
+       $sql = "INSERT INTO `factura` (`id_factura`, `id_persona`, `id_tipo`, `id_estado`, `total`, `fecha`, `fecha_entrega`, `descuento`) "
+               . "VALUES (NULL, '$id_persona', '$id_tipo', '$id_estado', '$total',STR_TO_DATE('$fecha', '%d-%m-%Y' ),STR_TO_DATE('$fecha_entrega', '%d-%m-%Y' ), '$descuento');";
        $respuesta = $db->insert($sql);
        return $respuesta;
     }
@@ -63,12 +63,17 @@ class Factura_Model{
     
     function verPedidoFactura($id_factura){
        global $db;
-       $sql = "SELECT f.fecha,id_cobro,monto,f.total as factura_total, p.name, cantidad, precio, ped.total "
+       /*$sql = "SELECT f.fecha,id_cobro,monto,f.total as factura_total, p.name, cantidad, precio, ped.total "
                . "FROM pedido ped, producto p ,factura f,cobros "
                . "WHERE ped.id_factura = '$id_factura'"
                . "AND ped.id_factura = f.id_factura "
-               . "AND ped.id_producto = p.id_producto;";
-       $respuesta = $db->query($sql);
+               . "AND ped.id_producto = p.id_producto;";*/
+       $sql = "SELECT f.fecha,f.total as factura_total, p.name, cantidad, precio, ped.total "
+               . "FROM pedido ped, producto p ,factura f "
+               . "WHERE ped.id_factura = '$id_factura' "
+               . "AND ped.id_factura = f.id_factura "
+               . "AND ped.id_producto = p.id_producto";
+        $respuesta = $db->query($sql);
        return $respuesta;
     }
     
@@ -77,5 +82,10 @@ class Factura_Model{
        $sql = "SELECT id_factura FROM `factura` WHERE id_persona='$id_persona'";
        $respuesta = $db->query($sql);
        return $respuesta;
+    }
+    function ultimoPedido(){
+        global $db; 
+        $sql = "SELECT MAX(id_factura) AS id FROM factura;";
+        return $db->query($sql);
     }
 }

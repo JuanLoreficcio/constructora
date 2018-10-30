@@ -1,29 +1,39 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<style type="text/css" media="all">
+   <!--
+   h2{display: inline;}
+   -->
+</style>
 
 <form id="frmAltaProducto" name="frmAltaProducto" method=post>
     <div class="form-group">
-        <input type="hidden" name="action" value="Factura::nuevoFactura">   
+        <input type="hidden" name="action" value="Factura::nuevoFactura"> 
+        <h2 for="persona">Numero de pedido: </h2> <h2>{nro_pedido}</h2>
+        <br><br><br>
         <label for="persona">Fecha:</label>
         <input id="fechaActual" name="fechaActual" class="form-control" type="text" value="{var_fecha}">
-        
+
         <label for="persona">Fecha de entrega:</label>
         <input id="fechaEntrega" name="fechaEntrega" class="form-control" type="text" value="{var_fecha}">
         <br><br><br>
-        <label for="persona">Destinatario <input class="btn btn-primary" alling=rigth type="button" onclick="" value="Nueva Persona" name="boton" /> </label>
-        <select class="form-control"  name="cliente">
+        <label for="persona">Destinatario</label>
+        <select class="form-control" id="cliente" name="cliente">
             <!-- START BLOCK : block_cliente-->        
             <option value="{idCliente}">{var_cliente}</option>    
             <!-- END BLOCK : block_cliente-->        
         </select>
         
-        
-        <label for="tipo">Tipo Pedido</label>
-        <select class="form-control" name="tipo">
-            <option value="0">Compra</option> 
-            <option value="1">Venta</option> 
+
+
+        <label for="tipoAlpedo">Tipo Pedido</label>
+        <select class="form-control" name="tipoAlpedo" readonly="readonly">
+            <!-- START BLOCK : block_tipo_pedido-->
+            <option value="{idTipo}" {fijo}>{var_tipo}</option>
+            <!-- END BLOCK : block_tipo_pedido-->
         </select>
+        <input type="hidden" name="tipo" value="{idTipoPosta}">
         
         <label for="estado">Estado Pedido</label>
         <select class="form-control" name="estado">
@@ -34,16 +44,16 @@
         </select>
         <br><br>
         <table  id="mytable" class="table table-bordered table-hover ">
-          <tr>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Subtotal</th>
-            <th>Quitar</th>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th>Quitar</th>
 
-        </tr>
-    </table>  
-</div>
+            </tr>
+        </table>  
+    </div>
 </form> 
 <div style="text-align: left">
     <button class="btn btn-info" data-toggle="modal" data-target="#modalForm">
@@ -51,45 +61,49 @@
     </button>    
 </div>
 
- <table >
-        <tr>
-            <td><a href="index.php?action=Factura::verTodasFactura" class="btn btn-default">Volver</a></td>
-            <td>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;
-            </td>
-            <br><br>
-            <div id="metric_results"></div>
-            <td><button  class="btn btn-success" onclick="onSend(frmAltaProducto);" >Terminar Pedido</button></td>
-        </tr>
-    </table>
+<button class="btn btn-info" data-toggle="modal" data-target="#modalFormPerson">
+    Nueva Persona
+</button> 
+
+<table >
+    <tr>
+        <td><a href="index.php?action=Factura::verTodasFactura" class="btn btn-default">Volver</a></td>
+        <td>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+    <br><br>
+    <div id="metric_results"></div>
+    <td><button  class="btn btn-success" onclick="onSend(frmAltaProducto);" >Terminar Pedido</button></td>
+</tr>
+</table>
 
 
 <div class="modal fade" data-backdrop="false" data-dismiss="modal" id="modalForm" role="dialog">
@@ -105,63 +119,145 @@
             </div>
             <div class="modal-body">
                 <p class="statusMsg"></p>
-                
-                    <label for="producto" class="col-2 col-form-label">Producto lista</label>
-                    <div class="form-group row">
-                        <div class="col-10">
-                            <select class="form-control" id="producto" name="producto" onchange="elegirsaldo(this);">
-                                <option data-id ="0" data-name="" data-price ="" >Productos</option>
-                                <!-- START BLOCK : producto_factura-->
-                                <option data-id ="{idProducto}" data-name="{var_producto}" data-price ="{precioProducto}" >{var_producto}</option> 
-                                <!-- START BLOCK : producto_factura-->
-                            </select>
-                        </div>
+
+                <label for="producto" class="col-2 col-form-label">Producto lista</label>
+                <div class="form-group row">
+                    <div class="col-10">
+                        <select class="form-control" id="producto" name="producto" onchange="elegirsaldo(this);">
+                            <option data-id ="0" data-name="" data-price ="" >Productos</option>
+                            <!-- START BLOCK : producto_factura-->
+                            <option data-id ="{idProducto}" data-name="{var_producto}" data-price ="{precioProducto}" >{var_producto}</option> 
+                            <!-- START BLOCK : producto_factura-->
+                        </select>
                     </div>
-                    <div class="form-group row">
-                        <label for="precio" class="col-2 col-form-label">Precio</label>
-                        <div class="col-10">
-                            <input id="precio" name="precio" class="form-control" type="text" value="">
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="precio" class="col-2 col-form-label">Precio</label>
+                    <div class="col-10">
+                        <input id="precio" name="precio" class="form-control" type="text" value="">
                     </div>
-                    <div class="form-group row">
-                        <label for="cantidad" class="col-2 col-form-label">Cantidad</label>
-                        <div class="col-10">
-                            <input id="cantidad" name="cantidad" class="form-control" type="text" value="">
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="cantidad" class="col-2 col-form-label">Cantidad</label>
+                    <div class="col-10">
+                        <input id="cantidad" name="cantidad" class="form-control" type="text" value="">
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <input  id="adicionar" class="btn btn-large btn-primary" value="Agregar" type="button">
-                    </div>
-                    
-                
-                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <input  id="adicionar" class="btn btn-large btn-primary" value="Agregar" type="button">
+                </div>
             </div>
-            
-            
         </div>
     </div>
 </div>
+
+<div class="modal fade" data-backdrop="false" data-dismiss="modal" id="modalFormPerson" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">X</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Persona</h4>
+            </div>
+            <div class="modal-body">
+                <p class="statusMsg"></p>
+
+                <label for="nombre" class="col-2 col-form-label">Nombre</label>
+                <div class="form-group row">
+                    <div class="col-10">
+                        <input id="nombre" name="nombre" class="form-control" type="text" value="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="direccion" class="col-2 col-form-label">Direccion</label>
+                    <div class="col-10">
+                        <input id="direccion" name="direccion" class="form-control" type="text" value="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="mail" class="col-2 col-form-label">Mail</label>
+                    <div class="col-10">
+                        <input id="mail" name="mail" class="form-control" type="text" value="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="telefono" class="col-2 col-form-label">Telefono</label>
+                    <div class="col-10">
+                        <input id="telefono" name="telefono" class="form-control" type="text" value="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-10">
+                        <input id="rol" name="rol" class="form-control" type="hidden" value="{var_nueva_rol}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <input  id="adicionarPersona" class="btn btn-large btn-primary" value="Agregar" type="button">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-	function hola(){
-		document.forms["frmAltaProducto"].submit();
-	}
+    function hola() {
+        document.forms["frmAltaProducto"].submit();
+    }
     var data = [];
     var i = 0;
     var precio;
     var idProducto;
     var nombreProducto;
     var todos = [];
+    
+    
+    var dataPersona= [];
+    var namePersona;
+    var addressPersona;
+    var mailPersona;
+    var phonePersona;
+    var rolPersona;
+    
+    $("#adicionarPersona").click(function (event) {
+        namePersona= document.getElementById("nombre").value;
+        dataPersona.push(namePersona);
+        addressPersona= document.getElementById("direccion").value;
+        dataPersona.push(addressPersona);
+        mailPersona= document.getElementById("mail").value;
+        dataPersona.push(mailPersona);
+        phonePersona= document.getElementById("telefono").value;
+        dataPersona.push(phonePersona);
+        rolPersona= document.getElementById("rol").value;
+        dataPersona.push(rolPersona);
+       
+        $("#modalFormPerson").modal("hide");
+       
+        
+        var x = document.getElementById("cliente");
+        var option = document.createElement("option");
+        option.value =-1;
+        option.text =namePersona;
+        x.add(option,x[-1]);
+   
+        document.ready = document.getElementById("cliente").value = '-1';
+    });
+    
     $("#adicionar").click(function(event) {
         event.preventDefault();
         data.push(nombreProducto);
         var precioActual = document.getElementById("precio").value;
         //var precioActual =$(this).find('input[name="precio"]').val();
         data.push(precioActual);
-        var cantidad =document.getElementById("cantidad").value;
+        var cantidad = document.getElementById("cantidad").value;
         //var cantidad =$(this).find('input[name="cantidad"]').val();
         data.push(cantidad);
-        var subtotal = cantidad*precioActual;
+        var subtotal = cantidad * precioActual;
         data.push(subtotal);
         data.push(idProducto);
         data.push(true);
@@ -169,51 +265,56 @@
         todos.push(data);
         data = [];
         //addTable(todos);
-        cargar(nombreProducto,precioActual,cantidad,subtotal);
+        cargar(nombreProducto, precioActual, cantidad, subtotal);
     });
-    
-    
+
+
     function processData() {
         alert(todos);
     }
-    
-    function elegirsaldo(el){ // recibimos por parametro el elemento select
+
+    function elegirsaldo(el) { // recibimos por parametro el elemento select
         // obtenemos la opción seleccionada .
-        idProducto =$('option:selected', el).attr('data-id');
-        nombreProducto =$('option:selected', el).attr('data-name');
-        document.getElementById("precio").value=$('option:selected', el).attr('data-price');
+        idProducto = $('option:selected', el).attr('data-id');
+        nombreProducto = $('option:selected', el).attr('data-name');
+        document.getElementById("precio").value = $('option:selected', el).attr('data-price');
     }
-    
-    
-    function onSend(form){
+
+
+    function onSend(form) {
         input = document.createElement('input');
         input.type = 'hidden';
         input.name = 'todos';
         input.value = JSON.stringify(todos);
+        inputPersona = document.createElement('input');
+        inputPersona.type = 'hidden';
+        inputPersona.name = 'dataPersona';
+        inputPersona.value = JSON.stringify(dataPersona);
         form.appendChild(input);
+        form.appendChild(inputPersona);
         form.submit();
     }
 </script>
 
 <script>
-    function cargar(nombreProducto,precioActual,cantidad,subtotal){
+    function cargar(nombreProducto, precioActual, cantidad, subtotal) {
 
-  var fila = '<tr id="row' + i + '"><td>' + nombreProducto + '</td><td>' + precioActual + '</td><td>' + cantidad+ '</td><td>' + subtotal + '</td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">Quitar</button></td></tr>'; //esto seria lo que contendria la fila
+        var fila = '<tr id="row' + i + '"><td>' + nombreProducto + '</td><td>' + precioActual + '</td><td>' + cantidad + '</td><td>' + subtotal + '</td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">Quitar</button></td></tr>'; //esto seria lo que contendria la fila
 
-  i++;
+        i++;
 
-  $('#mytable tr:first').after(fila);
-	}
- 
-$(document).on('click', '.btn_remove', function() {
-  var button_id = $(this).attr("id");
-    //cuando da click obtenemos el id del boton
-    todos[button_id][5]=false;
-    $('#row' + button_id + '').remove(); //borra la fila
-    
-    $("#adicionados").text("");
-    var nFilas = $("#mytable tr").length;
-    $("#adicionados").append(nFilas - 1);
-});
+        $('#mytable tr:first').after(fila);
+    }
+
+    $(document).on('click', '.btn_remove', function () {
+        var button_id = $(this).attr("id");
+        //cuando da click obtenemos el id del boton
+        todos[button_id][5] = false;
+        $('#row' + button_id + '').remove(); //borra la fila
+
+        $("#adicionados").text("");
+        var nFilas = $("#mytable tr").length;
+        $("#adicionados").append(nFilas - 1);
+    });
 
 </script>
