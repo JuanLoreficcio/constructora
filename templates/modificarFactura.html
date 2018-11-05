@@ -9,7 +9,9 @@
 
 <form id="frmAltaProducto" name="frmAltaProducto" method=post>
     <div class="form-group">
-        <input type="hidden" name="action" value="Factura::nuevoFactura"> 
+        <input type="hidden" name="action" value="Factura::modificarFactura"> 
+        
+        <input type="hidden" name="listaPedidos" value="{listaPedidos}"> 
         <h2 for="persona">Numero de pedido: </h2> <h2>{nro_pedido}</h2>
         <br><br><br>
         <label for="persona">Fecha:</label>
@@ -19,28 +21,25 @@
         <input id="fechaEntrega" name="fechaEntrega" class="form-control" type="text" value="{var_fecha_entrega}">
         <br><br><br>
         <label for="persona">Destinatario</label>
-        <select class="form-control" id="cliente" name="cliente">
-            <!-- START BLOCK : block_cliente-->        
-            <option value="{idCliente}">{var_cliente}</option>    
-            <!-- END BLOCK : block_cliente-->        
-        </select>
+        <input class="form-control" id="cliente" name="cliente" value="{var_cliente}" readonly="readonly">
+           
 
 
 
         <label for="tipoAlpedo">Tipo Pedido</label>
-        <select class="form-control" name="tipoAlpedo" readonly="readonly">
-            <!-- START BLOCK : block_tipo_pedido-->
-            <option value="{idTipo}" {fijo}>{var_tipo}</option>
-            <!-- END BLOCK : block_tipo_pedido-->
-        </select>
-        <input type="hidden" name="tipo" value="{idTipoPosta}">
-
+        <input class="form-control" id="cliente" name="tipo" value="{var_tipo}" readonly="readonly">
+        
+        <input type="hidden" name="tipos" value="{idTipoPosta}">
+        <input type="hidden" name="codigo" value="{nro_pedido}">
+        <input type="hidden" name="cliente" value="{id_cliente}">
+        
+        
         <label for="estado">Estado Pedido</label>
         <select class="form-control" name="estado">
-            <option value="0">Presupuestado</option>  
-            <option value="1">Confirmado</option> 
-            <option value="2">Entregado</option> 
-            <option value="3">Pagado</option> 
+            <option value="0" {var_estado0}>Presupuestado</option>  
+            <option value="1" {var_estado1}>Confirmado</option> 
+            <option value="2" {var_estado2}>Entregado</option> 
+            <option value="3" {var_estado3}>Pagado</option> 
         </select>
         <br><br>
         <table  id="mytable" class="table table-bordered table-hover ">
@@ -54,7 +53,7 @@
             </tr>
             <!-- START BLOCK : block_productos-->
             <tr>
-                <td align="center"><input type="checkbox" id="{idProducto}" name="{idProducto}" value="{valueCheck}" onclick="destildarCampos(this.value,{idProducto});"></td>
+                <td align="center"><input type="checkbox" id="{idProductoId}" name="{idProductoId}" value="{valueCheck}" data-pedido="{cod_pedido}" data-id="{idProducto}" {chekeado} onclick="destildarCampos(this.value,{idProducto},{numeroProducto});"></td>
                 <td align="center">{var_producto}</td>
                 <td align="center"><input class="form-control" type="text" id="{precioProducto}" name="{precioProducto}" value="{precioProductoValor}"disabled=true></td>
                 <td align="center"><input class="form-control" type="text" id="{cantidadProducto}" name="{cantidadProducto}" value="{cantidadProductoValor}" disabled=true onchange="calcularTotal('{idProducto}');"></td>
@@ -66,13 +65,11 @@
 </form> 
 
 
-<button class="btn btn-info" data-toggle="modal" data-target="#modalFormPerson">
-    Nueva Persona
-</button> 
+
 
 <table >
     <tr>
-        <td><a href="index.php?action=Factura::verTodasFactura" class="btn btn-default">Volver</a></td>
+        <td><a href="index.php?action=Factura::verTodasFactura&type=venta" class="btn btn-default">Volver</a></td>
         <td>
             &nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -106,69 +103,11 @@
         </td>
     <br><br>
     <div id="metric_results"></div>
-    <td><button  class="btn btn-success" onclick="onSend(frmAltaProducto);" >Terminar Pedido</button></td>
+    <td><button  class="btn btn-success" onclick="onSend(frmAltaProducto,{cantidad_productos});" >Terminar Pedido</button></td>
 </tr>
 </table>
 
-
-<div class="modal fade" data-backdrop="false" data-dismiss="modal" id="modalFormPerson" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">X</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Persona</h4>
-            </div>
-            <div class="modal-body">
-                <p class="statusMsg"></p>
-
-                <label for="nombre" class="col-2 col-form-label">Nombre</label>
-                <div class="form-group row">
-                    <div class="col-10">
-                        <input id="nombre" name="nombre" class="form-control" type="text" value="">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="direccion" class="col-2 col-form-label">Direccion</label>
-                    <div class="col-10">
-                        <input id="direccion" name="direccion" class="form-control" type="text" value="">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="mail" class="col-2 col-form-label">Mail</label>
-                    <div class="col-10">
-                        <input id="mail" name="mail" class="form-control" type="text" value="">
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="telefono" class="col-2 col-form-label">Telefono</label>
-                    <div class="col-10">
-                        <input id="telefono" name="telefono" class="form-control" type="text" value="">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-10">
-                        <input id="rol" name="rol" class="form-control" type="hidden" value="{var_nueva_rol}">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input  id="adicionarPersona" class="btn btn-large btn-primary" value="Agregar" type="button">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
-    function hola() {
-        document.forms["frmAltaProducto"].submit();
-    }
-    
     var precio;
     var idProducto;
     var nombreProducto;
@@ -206,15 +145,16 @@
         document.ready = document.getElementById("cliente").value = '-1';
     });
     
-    function destildarCampos(V,idProducto){
+    function destildarCampos(V,idProducto,cantidadProducto){
+        var productoId="productoId-"+cantidadProducto;
         var cantidadId="cantidadId-"+idProducto;
         var precioId="precioId-"+idProducto;
         if(V=="no"){
-            document.getElementById(idProducto).value="yes";
+            document.getElementById(productoId).value="yes";
             document.getElementById(cantidadId).disabled=false;
             document.getElementById(precioId).disabled=false;
         }else{
-            document.getElementById(idProducto).value="no";
+            document.getElementById(productoId).value="no";
             document.getElementById(cantidadId).disabled=true;
             document.getElementById(precioId).disabled=true;
         }
@@ -238,12 +178,42 @@
 
   
 
-    function onSend(form) {
-        inputPersona = document.createElement('input');
-        inputPersona.type = 'hidden';
-        inputPersona.name = 'dataPersona';
-        inputPersona.value = JSON.stringify(dataPersona);
-        form.appendChild(inputPersona);
+    function onSend(form,a) {
+        var tabla=[];
+        
+
+        for (var i = 0; i < a; i++) {
+            var dato=[];
+            var numero="productoId-"+i;
+                
+            var b = document.getElementById(numero);
+            var idProducto = b.getAttribute('data-id');
+            
+            
+            var cantidadId="cantidadId-"+idProducto;
+            var precioId="precioId-"+idProducto;
+            var totalId="totalId-"+idProducto;
+            
+            
+            
+            dato.push(document.getElementById(numero).value); //yes or no
+            dato.push(document.getElementById(precioId).value);
+            dato.push(document.getElementById(cantidadId).value);
+            dato.push(document.getElementById(totalId).value);
+            dato.push(idProducto); //id producto
+            
+            var pedido = b.getAttribute('data-pedido');
+            dato.push(pedido);
+            dato.push(a);
+            tabla.push(dato);     
+        }
+        
+        inputTabla = document.createElement('input');
+        inputTabla.type = 'hidden';
+        inputTabla.name = 'tabla';
+        inputTabla.value = JSON.stringify(tabla);
+        
+        form.appendChild(inputTabla);
         form.submit();
     }
 </script>

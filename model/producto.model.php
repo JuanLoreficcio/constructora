@@ -23,12 +23,13 @@ class Producto_Model{
 
 function  verProductos(){
     global $db;
-    $sql = "SELECT `id_producto`,`name`,`price` FROM `producto` ORDER BY `id_producto`;";
+    $sql = "SELECT `id_producto`,`name`,`price` FROM `producto` ORDER BY `name`;";
     $result = $db->query($sql);
     if($result){
-    return $result;}
-     else{
-     return false;}
+        return $result;
+    }else{
+     return false;
+    }
 }
 
 function verProductos_name($name){
