@@ -5,9 +5,9 @@
         <group>
             <file>file:/C:/xampp/htdocs/constructora2.0/model/factura.model.php</file>
             <file>file:/C:/xampp/htdocs/constructora2.0/controller/factura.controller.php</file>
-            <file>file:/C:/xampp/htdocs/constructora2.0/templates/modificarFactura.html</file>
+            <file>file:/C:/xampp/htdocs/constructora2.0/templates/listadoFacturas.html</file>
+            <file>file:/C:/xampp/htdocs/constructora2.0/templates/verFactura.html</file>
             <file>file:/C:/xampp/htdocs/constructora2.0/model/pedido.model.php</file>
-            <file>file:/C:/xampp/htdocs/constructora2.0/model/persona.model.php</file>
         </group>
     </open-files>
 </project-private>
