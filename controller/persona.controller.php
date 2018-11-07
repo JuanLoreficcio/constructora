@@ -252,7 +252,7 @@ class Persona_Controller {
             if ($r["tipo"] == 'factura') {
                 $tpl->assign("var_cuenta", $r["precio"]);
                 $tpl->assign("var_abonado", "");
-                $tpl->assign("link", "index.php?action=Factura::verFactura&id=" . $id_persona);
+                $tpl->assign("link", "index.php?action=Factura::verFactura&id=" . $r["codigo"]);
                 $debe += $r["precio"];
             } else {
                 $tpl->assign("var_cuenta", "");

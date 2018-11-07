@@ -68,8 +68,13 @@
         </footer>
         </div>
         <input class="btn btn-default" type="button" onclick="location.href='index.php?action=Factura::verTodasFactura&type={var_factura_tipo}'" value=" Volver ">
+        
         <button class="btn btn-default" type="button" onClick="imprimir(pepe)">
             <span class="glyphicon glyphicon-print"></span>
+        </button>
+        
+        <button class="btn btn-danger" type="button" onclick="location.href='index.php?action=Factura::eliminarFactura&id={var_factura_code}&type={var_factura_tipo}'">
+            <span class="glyphicon glyphicon-trash"></span>
         </button>
         </body>
 </html>

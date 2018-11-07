@@ -263,10 +263,22 @@ class Factura_Controller {
         return $tpl->getOutputContent();
     }
 
-    function eliminarFactura($id_factura) {
+    function eliminarFactura() {
+        $type = $_GET["type"];
+        $id_factura= $_GET["id"];
         $factura = new Factura_Model();
+        $pedido = new Pedido_Model();
+        
+        $pedidos = $factura->verPedidoFactura($id_factura);
+        foreach ($pedidos as $ped) {
+            $pedido->descartarPedido($ped["pedido_id"]);
+            
+        }
         $result = $factura->eliminarFactura($id_factura);
-        return $result;
+        
+        $cadena = "Location: index.php?action=Factura::verTodasFactura&type=".$type;
+        return header($cadena);
+         
     }
 
     function verTodasFactura() {
@@ -278,12 +290,14 @@ class Factura_Controller {
         if ($type == "compra") {
             $tpl->assign("var_nueva", "Nueva compra");
             $tpl->assign("var_accion", "1");
+            $tpl->assign("var_list_estado", "1");
             if ($result) {
                 $tpl->gotoBlock("_ROOT");
                 foreach ($result as $r) {
                     if ($r["tipo_name"] == "compra") {
                         $tpl->newBlock("block_listado_facturas");
                         $tpl->assign("var_list_cod", $r["id_factura"]);
+                        $tpl->assign("var_list_esta", "compra");
                         $tpl->assign("var_list_fecha", $r["fecha"]);
                         $tpl->assign("var_list_titular", $r["persona_name"]);
                         $tpl->assign("var_list_estado", $r["estado_name"]);
@@ -297,6 +311,7 @@ class Factura_Controller {
         } else {
             $tpl->assign("var_nueva", "Nueva venta");
             $tpl->assign("var_accion", "2");
+            
             if ($result) {
                 $tpl->gotoBlock("_ROOT");
                 foreach ($result as $r) {
@@ -307,6 +322,7 @@ class Factura_Controller {
                         $tpl->assign("var_list_titular", $r["persona_name"]);
                         $tpl->assign("var_list_estado", $r["estado_name"]);
                         $tpl->assign("var_list_total", $r["total"]);
+                        $tpl->assign("var_list_esta", "venta");
                     }
                 }
             } else {
