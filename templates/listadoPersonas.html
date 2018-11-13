@@ -1,20 +1,32 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
 
 <div style="text-align: right">
-    <input class="btn btn-primary" alling=rigth type="button" onclick=" location.href='index.php?action=Persona::altaPersona' " value="Nueva Persona" name="boton" /></div>
+    <input class="btn btn-primary" alling=rigth type="button" onclick=" location.href='index.php?action=Persona::altaPersona' " value="Nueva Persona" name="boton" />
+    <button class="btn btn-info" data-toggle="modal" data-target="#modalFormExport">Exportar datos</button>
+</div>
+
+<form id="frmAltaExport" name="frmAltaExport" method=post>
 <div class="table-responsive">
     <h2>Listado de {var_list_rol}</h2>
+    <div class="form-group">
+        <input type="hidden" name="action" value="Persona::exportarDatos"> 
+    </div>
     <table class="table" aling=center >
         <tr>
-            <th width="42.5%" alling="center">Nombre y Apellido</th>
-            <th width="42.5%" alling="center">Cuenta</th>
+            <th width="5%" alling="center"></th>
+            <th width="30%" alling="center">Nombre y Apellido</th>
+            <th width="30%" alling="center">Cuenta</th>
             <th width="5%" alling="center"></th>
             <th width="5%" alling="center"></th>
             <th width="5%" alling="center"></th>
         </tr>
         <!-- START BLOCK : block_listado_personas -->
         <tr>
+            <td>
+                <input type="checkbox" name="{nameCheckBox}" value="{idPersona}">
+            </td>
             <td>{var_list_nam}</td>
             <td> 
                 <a href="index.php?action=Persona::verPersonaCuenta&id={var_lis_cod}" class="{color_cuenta}">
@@ -44,3 +56,139 @@
         <!-- END BLOCK : block_no_listado_personas -->
     </table>
 </div>
+</form>
+
+<div class="modal fade" data-backdrop="false" data-dismiss="modal" id="modalFormExport" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">X</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Filtrado</h4>
+            </div>
+            <div class="modal-body">
+                <p class="statusMsg"></p>
+                
+                <label for="desde" class="col-2 col-form-label">Desde:</label>
+                <div class="form-group row">
+                    <table class="table" aling=center >
+                        <tr>
+                            <td>
+                                <select class="form-control" id="mesDesde" name="mesDesde">
+                                    <option value="" disabled selected>Mes</option>
+                                    <option value="1">Enero</option>
+                                    <option value="2">Febrero</option>
+                                    <option value="3">Marzo</option>
+                                    <option value="4">Abril</option>
+                                    <option value="5">Mayo</option>
+                                    <option value="6">Junio</option>
+                                    <option value="7">Julio</option>
+                                    <option value="8">Agosto</option>
+                                    <option value="9">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11">Noviembre</option>
+                                    <option value="12">Diciembre</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control" id="añoDesde" name="añoDesde" value="Año">
+                                    <option value="" disabled selected>Año</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <label for="hasta" class="col-2 col-form-label">Hasta:</label>
+                    <table class="table" aling=center>
+                        <tr>
+                            <td>
+                                <select class="form-control" id="mesHasta" name="mesHasta" value="Mes">
+                                    <option value="" disabled selected>Mes</option>
+                                    <option value="1">Enero</option>
+                                    <option value="2">Febrero</option>
+                                    <option value="3">Marzo</option>
+                                    <option value="4">Abril</option>
+                                    <option value="5">Mayo</option>
+                                    <option value="6">Junio</option>
+                                    <option value="7">Julio</option>
+                                    <option value="8">Agosto</option>
+                                    <option value="9">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11">Noviembre</option>
+                                    <option value="12">Diciembre</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control" id="añoHasta" name="añoHasta" value="Año">
+                                    <option value="" disabled selected>Año</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <input  id="adicionarPersona" class="btn btn-large btn-primary" value="Descargar" type="button" onclick="onSend();">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var mesDesde;
+    var mesHasta;
+    var añoDesde;
+    var añoHasta;
+    
+    
+    var selectMesDesde = document.getElementById('mesDesde');
+        selectMesDesde.addEventListener('change',
+        function(){
+            var selectedOption = this.options[selectMesDesde.selectedIndex];
+            mesDesde = selectedOption.value;
+        });
+    var selectMesHasta = document.getElementById('mesHasta');
+        selectMesHasta.addEventListener('change',
+        function(){
+            var selectedOption = this.options[selectMesHasta.selectedIndex];
+            mesHasta = selectedOption.value;
+        });
+        
+        var selectAñoDesde = document.getElementById('añoDesde');
+        selectAñoDesde.addEventListener('change',
+        function(){
+             var selectedOption = this.options[selectAñoDesde.selectedIndex];
+             añoDesde = selectedOption.value;
+        });
+        
+        var selectAñoHasta = document.getElementById('añoHasta');
+        selectAñoHasta.addEventListener('change',
+        function(){
+            var selectedOption = this.options[selectAñoHasta.selectedIndex];
+            añoHasta = selectedOption.value;
+        });
+    
+    function onSend(){
+        var fecha=[mesDesde,mesHasta,añoDesde,añoHasta];
+        
+        inputTabla = document.createElement('input');
+        inputTabla.type = 'hidden';
+        inputTabla.name = 'tabla';
+        inputTabla.value = JSON.stringify(fecha);
+        
+        frmAltaExport.appendChild(inputTabla);
+        frmAltaExport.submit();
+    }
+</script>
+

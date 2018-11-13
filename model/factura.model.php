@@ -1,9 +1,9 @@
 <?php
 class Factura_Model{
-    function nuevoFactura($id_persona,$id_tipo, $id_estado,$total,$fecha,$fecha_entrega,$descuento){
-       global $db; 
-       $sql = "INSERT INTO `factura` (`id_factura`, `id_persona`, `id_tipo`, `id_estado`, `total`, `fecha`, `fecha_entrega`, `descuento`) "
-               . "VALUES (NULL, '$id_persona', '$id_tipo', '$id_estado', '$total',STR_TO_DATE('$fecha', '%d-%m-%Y' ),STR_TO_DATE('$fecha_entrega', '%d-%m-%Y' ), '$descuento');";
+    function nuevoFactura($id_persona,$id_tipo, $id_estado,$total,$fecha,$fecha_entrega,$descuento,$codigoCompra){
+       global $db;
+       $sql = "INSERT INTO `factura` (`id_factura`, `id_persona`, `id_tipo`, `id_estado`, `total`, `fecha`, `fecha_entrega`, `descuento`, `codiogoCompra`) "
+               . "VALUES (NULL, '$id_persona', '$id_tipo', '$id_estado', '$total',STR_TO_DATE('$fecha', '%d-%m-%Y' ),STR_TO_DATE('$fecha_entrega', '%d-%m-%Y' ), '$descuento','$codigoCompra');";
        $respuesta = $db->insert($sql);
        return $respuesta;
     }
@@ -52,7 +52,7 @@ class Factura_Model{
     function verFactura($id_factura){
        global $db;       
        $sql = "SELECT p.id_persona as persona_id,p.name as persona_name,p.mail,p.address, "
-               . "e.name as estado_name,e.id_estado as estado_id,id_factura,fecha,fecha_entrega,total,t.name as tipo_name, t.id_tipo as tipo_id "
+               . "e.name as estado_name,e.id_estado as estado_id,id_factura,fecha,fecha_entrega,total,t.name as tipo_name, t.id_tipo as tipo_id,codiogoCompra "
                . "FROM factura f, persona p, estado e, tipo t "
                . "WHERE f.id_factura = '$id_factura'"
                . "AND f.id_persona = p.id_persona "

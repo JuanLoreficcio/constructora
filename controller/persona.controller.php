@@ -94,18 +94,20 @@ class Persona_Controller {
         if ($type == "cliente") {
             $tpl->assign("var_list_rol", "Clientes");
             foreach ($respuesta as $r) {
+                $tpl->gotoBlock("_ROOT");
+                $cadena="personaExport".$p["id_persona"];
+                $tpl->assign("nameCheckBox", $cadena);
+                $tpl->assign("idPersona", $r["id_persona"]);
                 if ($r["rol"] == cliente) {
                     $tpl->newBlock("block_listado_personas");
                     $tpl->assign("var_list_nam", $r["name"]);
                     $tpl->assign("var_lis_cod", $r["id_persona"]);
-
+                    
                     $debeSQL = $var_persona->totalFactura($r["id_persona"]);
                     $debe = 0;
                     foreach ($debeSQL as $d) {
                         $debe = $d["suma_factura"];
                     }
-
-
 
                     $haberSQL = $var_persona->totalCobro($r["id_persona"]);
                     $haber = 0;
@@ -142,7 +144,6 @@ class Persona_Controller {
                     $tpl->assign("var_list_nam", $r["name"]);
                     $tpl->assign("var_lis_cod", $r["id_persona"]);
 
-
                     $debeSQL = $var_persona->totalFactura($r["id_persona"]);
                     $debe = 0;
                     foreach ($debeSQL as $d) {
@@ -175,7 +176,6 @@ class Persona_Controller {
                 $tpl->assign("var_lis_cod", $p["id_persona"]);
             }
         }
-
         return $tpl->getOutputContent();
     }
 
@@ -208,7 +208,6 @@ class Persona_Controller {
         $tpl->assign("var_type", $type);
         return $tpl->getOutputContent();
     }
-
     function altaPersona() {
         $tpl = new TemplatePower("templates/nuevaPersona.html");
         $tpl->prepare();
@@ -229,13 +228,17 @@ class Persona_Controller {
         $conFecha = $d . "-" . $m . "-" . $a;
 
         $cadena = "";
+        $rolPersona=-1;
         $var_persona = new Persona_Model();
+        $fact = new Factura_Model();
         $persona = $var_persona->verPersona($id_persona);
         foreach ($persona as $person) {
+            $rolPersona=$person["rol"];
             if ($person["rol"] == cliente) {
                 $cadena = "Cliente: " . $person["name"];
             } else {
                 $cadena = "Proveedor: " . $person["name"];
+                $tpl->assign("Codigo_compra", "Codigo Compra");
             }
         }
         $row = $var_persona->verCuentaFactura($id_persona);
@@ -254,6 +257,13 @@ class Persona_Controller {
                 $tpl->assign("var_abonado", "");
                 $tpl->assign("link", "index.php?action=Factura::verFactura&id=" . $r["codigo"]);
                 $debe += $r["precio"];
+                if($rolPersona==proveedor){
+                    $result=$fact->verFactura($r["codigo"]);
+                    foreach ($result as $res) {
+                        $tpl->assign("codigo_compra_detalle", $res["codiogoCompra"]);
+                    }
+                    
+                }
             } else {
                 $tpl->assign("var_cuenta", "");
                 $tpl->assign("var_abonado", $r["precio"]);
@@ -283,5 +293,26 @@ class Persona_Controller {
 
         return $tpl->getOutputContent();
     }
-
+    function exportarDatos(){
+        $stringFechas= strip_tags($_REQUEST['tabla']);
+        $fechas= json_decode($stringFechas, TRUE);
+        $mesDesde=$fechas[0];
+        $mesHasta=$fechas[1];
+        $añoDesde=$fechas[2];
+        $añoHasta=$fechas[3];
+        
+        $personaSelected=[];
+        $personas= new Persona_Model;
+        $listado=$personas->verPersonas();
+        
+        foreach ($listado as $l){
+            $cadena="personaExport".$l["id_persona"];
+        if(!empty($_REQUEST[$cadena])){
+                array_push($personaSelected,$l["id_persona"]);
+            }         
+        }
+        var_dump($personaSelected);
+        var_dump($fechas);
+        die;
+    }
 }

@@ -14,9 +14,11 @@
         <tr>
             <th alling="center">Fecha</th>
             <th alling="center">Codigo</th>
+            <th alling="center">{Codigo_compra}</th>
             <th alling="center">Gastos</th>
             <th alling="center">Abonado</th>
             <th alling="center">Detalles</th>
+            
         </tr>
         
         <!-- START BLOCK : block_listado_cuenta -->
@@ -26,6 +28,9 @@
             </td>
             <td> 
                 {var_list_nro_pedido}
+            </td>
+            <td>
+                {codigo_compra_detalle}
             </td>
             <td class="text-danger"> 
                 {var_cuenta}
@@ -51,16 +56,16 @@
             <th colspan="0">
                 <h4>ESTADO DE CUENTA:  </h4> 
             </th>
-            <th colspan="1">
+            <th colspan="2">
                 <h4 class="{clase_estilo}">{var_estado_cuenta}</h4>
-            </th>
-            <th colspan="1">
+            </th>            
+            <th colspan="0">
                 ${var_debe}
             </th>
-            <th colspan="1">
+            <th colspan="0">
                 ${var_haber}
             </th>
-            <th colspan="1">
+            <th colspan="0">
                  <button class="btn btn-success"  onclick="elegirmonto('{var_id_persona}');">
                     Abonar
                 </button>

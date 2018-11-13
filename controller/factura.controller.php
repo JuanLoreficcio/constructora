@@ -34,6 +34,7 @@ class Factura_Controller {
         }
         
         
+        
         $id_tipo = strip_tags($_REQUEST['tipo']);
         $id_estado = strip_tags($_REQUEST['estado']);
         $id_estado++;
@@ -41,11 +42,12 @@ class Factura_Controller {
         
         $fechaActual = strip_tags($_REQUEST['fechaActual']);
         $fechaEntrega = strip_tags($_REQUEST['fechaEntrega']);
+        $codigoCompra = strip_tags($_REQUEST['codigoParaCompra']);
         
         $id_persona = 0;
         if (empty($persona)) {
             $id_persona = strip_tags($_REQUEST['cliente']);
-            $id_factura = $factura->nuevoFactura($id_persona, $id_tipo, $id_estado, $totales, $fechaActual, $fechaEntrega, 0);
+            $id_factura = $factura->nuevoFactura($id_persona, $id_tipo, $id_estado, $totales, $fechaActual, $fechaEntrega, 0, $codigoCompra);
             
             for ($i = 0; $i < $cont; $i++) {
                 $precioU = $todo[$i][1];
@@ -58,7 +60,7 @@ class Factura_Controller {
             $var_persona = new Persona_Model();
             $id_persona = $var_persona->nuevaPersona($persona[0], $persona[1], $persona[2], $persona[3], $persona[4]);
 
-            $id_factura = $factura->nuevoFactura($id_persona, $id_tipo, $id_estado, $totales, $fechaActual, $fechaEntrega, 0);
+            $id_factura = $factura->nuevoFactura($id_persona, $id_tipo, $id_estado, $totales, $fechaActual, $fechaEntrega, 0, $codigoCompra);
             
             for ($i = 0; $i < $cont; $i++) {
                 $precioU = $todo[$i][1];
@@ -362,6 +364,11 @@ class Factura_Controller {
             $tpl->assign("var_persona_mail", $result["mail"]);
             $tpl->assign("var_factura_tipo", $result["tipo_name"]);
             $tpl->assign("var_factura_estado", $result["estado_name"]);
+            if($result["tipo_name"]=="compra"){
+                $tpl->assign("pedido", "Nº PEDIDO");
+                $tpl->assign("codigoPedido", $result["codiogoCompra"]);
+            }
+            
             $total=$result["total"];
         }
 
@@ -434,7 +441,9 @@ class Factura_Controller {
 
             $tpl->gotoBlock("_ROOT");
             $tpl->assign("idTipoPosta", 1);
-            
+            $tpl->assign("tituloParaTemplate","<label for='codigo'>Código de pedido:</label>");
+            $tpl->assign("codigoParaCompra","<input id='codigoParaCompra' name='codigoParaCompra' class='form-control' type='text' value=''>");
+            $tpl->assign("funcion_retorno","Factura::verTodasFactura&type=compra");
             //Hasta acá era el encabezado del pedido
             $tpl->gotoBlock("_ROOT");
             foreach ($productos as $p) {
@@ -488,7 +497,7 @@ class Factura_Controller {
 
             $tpl->gotoBlock("_ROOT");
             $tpl->assign("idTipoPosta", 2);
-            
+            $tpl->assign("funcion_retorno","Factura::verTodasFactura&type=venta");
             //Hasta acá era el encabezado del pedido
             $tpl->gotoBlock("_ROOT");
             foreach ($productos as $p) {

@@ -12,11 +12,18 @@
         <input type="hidden" name="action" value="Factura::nuevoFactura"> 
         <h2 for="persona">Numero de pedido: </h2> <h2>{nro_pedido}</h2>
         <br><br><br>
-        <label for="persona">Fecha:</label>
-        <input id="fechaActual" name="fechaActual" class="form-control" type="text" value="{var_fecha}">
+        <div class="input-group-addon">
+                <label for="persona">Fecha:</label>
+                <input id="fechaActual" name="fechaActual" class="form-control" type="text" value="{var_fecha}">
+                <label for="persona">Fecha de entrega:</label>
+                <input id="fechaEntrega" name="fechaEntrega" class="form-control" type="text" value="{var_fecha_entrega}">
 
-        <label for="persona">Fecha de entrega:</label>
-        <input id="fechaEntrega" name="fechaEntrega" class="form-control" type="text" value="{var_fecha_entrega}">
+        </div>
+        <br><br>
+         <div class="input-group">
+            {tituloParaTemplate}
+            {codigoParaCompra}
+         </div>
         <br><br><br>
         <label for="persona">Destinatario</label>
         <select class="form-control" id="cliente" name="cliente">
@@ -72,7 +79,7 @@
 
 <table >
     <tr>
-        <td><a href="index.php?action=Factura::verTodasFactura" class="btn btn-default">Volver</a></td>
+        <td><a href="index.php?action={funcion_retorno}" class="btn btn-default">Volver</a></td>
         <td>
             &nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;
