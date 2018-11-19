@@ -1,19 +1,47 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     
-<form id="frmAltaProducto" name="frmAltaProducto" method=post>
+<form id="frmAltaProducto" name="frmAltaProducto" method=post onsubmit="return validacion()">
     <div class="form-group">
         <input type="hidden" name="action" value="Producto::nuevoProducto">	
-        <label for="producto">Producto</label>
-        <input type="text" class="form-control" name="nameProducto">
-        <br><br>
-        <label for="precio">Precio Unitario</label>
-        <input type="text" class="form-control" name="priceProducto">
-        <br><br>
+        <table id="mytable" class="table">
+            <tr>
+                <th><label for="producto">Producto</label></th>
+                <td><input type="text" class="form-control" name="nameProducto" id="nameProducto"></td>
+            </tr>
+            <tr>
+                <th><label for="precio">Precio Unitario</label></th>
+                <td><input type="text" class="form-control" name="priceProducto" id="priceProducto"></td>
+            </tr>
+        </table>
         <div align="right">
             <input type="button" class="btn btn-default" onclick="location.href='index.php?action=Producto::verProductos'" value=" Volver ">
             <input type="submit" class="btn btn-success" value="Guardar">
         </div>
     </div>
+
 </form> 
-    
+
+<script>
+
+    function validacion(){
+        var cadena="";
+        var valor1 = document.getElementById("nameProducto").value;
+        var valor2 = document.getElementById("priceProducto").value;
+        if( valor1 == null || valor1.length == 0 || /^\s+$/.test(valor1) || !isNaN(valor1)) {
+            cadena+= "Error: [CAMPO 'PRODUCTO'] -> El nombre del producto es invalido\n";
+            document.getElementById("nameProducto").focus();
+        }
+        if( valor2 == null || valor2.length == 0 || /^\s+$/.test(valor2) || isNaN(valor2) ) {
+            cadena+= "Error: [CAMPO 'PRECIO UNITARIO'] -> El precio del producto es invalido\n";
+            document.getElementById("priceProducto").focus();
+        }
+        
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }
+        
+        
+    }
+</script>

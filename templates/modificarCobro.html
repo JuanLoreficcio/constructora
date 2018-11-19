@@ -1,10 +1,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
-<form id="frmModificarCobro" name="frmModificarCobro" method=post>
+
+<form id="frmModificarCobro" name="frmModificarCobro" method=post onsubmit="return validacion()">
     <div class="form-group">
         <input type="hidden" name="action" value="Cobros::modificarCobro">	
-            
+        
         <input type="hidden" id="id" value="{var_lis_cod}" name="id">
         <input type="hidden" id="id" value="{idPersona}" name="idPersona">
         
@@ -28,3 +28,27 @@
         </div>
     </div>
 </form>
+
+<script>
+    function validacion(){
+        var cadena="";
+        var valor1 = document.getElementById("fecha").value;
+        var valor2 = document.getElementById("monto").value;
+        
+        
+        if( valor1 == null || valor1.length == 0 || /^\s+$/.test(valor1) || !isNaN(valor1)) {
+            cadena+= "Error: [CAMPO 'FECHA'] -> Fecha invalida\n";
+            document.getElementById("fecha").focus();
+        }
+
+        if( valor2 == null || valor2.length == 0 || /^\s+$/.test(valor2) || isNaN(valor2) ) {
+            cadena+= "Error: [CAMPO 'MONTO'] -> monto invalido\n";
+            document.getElementById("monto").focus();
+        }
+
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }
+    }
+</script>

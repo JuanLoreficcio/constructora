@@ -1,77 +1,104 @@
 <?php
 class Factura_Controller {
-    function nuevoFactura() {     
+    function nuevoFactura() {
         $stringPersona = strip_tags($_REQUEST['dataPersona']);
         //$pedidos= explode(',',$stringPedidos); 
         $persona = json_decode($stringPersona, TRUE);
-        
+
         $pedido = new Pedido_Model();
         $factura = new Factura_Model();
         $var_producto = new Producto_Model();
-        
-        $producto=$var_producto->verProductos();
-        $todo=[];
+
+        $producto = $var_producto->verProductos();
+        $todo = [];
         $totales = 0;
-        $cont=0;
+        $cont = 0;
+        $ERROR=0;
         foreach ($producto as $p) {
-            $data=[];
-            $text=$p["id_producto"];
-            if($_REQUEST[$text]){
-                $cantidadId="cantidadId-".$p["id_producto"];
-                $precioId="precioId-".$p["id_producto"];
-                $totalId="totalIds-".$p["id_producto"];    
-                $cantidad=$_REQUEST[$cantidadId];
-                array_push($data, $cantidad);
-                $precio=$_REQUEST[$precioId];
-                array_push($data, $precio);
-                $total=$_REQUEST[$totalId];
-                array_push($data, $total);
-                array_push($data, $p["id_producto"]);
-                 $totales += $total;
-                array_push($todo, $data);
-                $cont++;
-            }
+            $data = [];
+            $text = $p["id_producto"];
+            if (isset($_REQUEST[$text])) {
+                $cantidadId = "cantidadId-" . $p["id_producto"];
+                $precioId = "precioId-" . $p["id_producto"];
+                $totalId = "totalIds-" . $p["id_producto"];
+
+                $cantidad = $_REQUEST[$cantidadId];
+                $precio = $_REQUEST[$precioId];
+                
+                if(isset($_REQUEST[$totalId])){
+                    $total = $_REQUEST[$totalId];
+                } else {
+                    $total=NULL;
+                }
+                
+                if (!filter_var($cantidad, FILTER_VALIDATE_FLOAT) || !filter_var($precio, FILTER_VALIDATE_FLOAT) || !filter_var($total, FILTER_VALIDATE_FLOAT) || $total==NULL) {
+                    $ERROR=-1;
+                } else {
+                    array_push($data, $cantidad);
+                    array_push($data, $precio);
+                    array_push($data, $total);
+                    array_push($data, $p["id_producto"]);
+                    $totales += $total;
+                    array_push($todo, $data);
+                    $cont++;
+                }
+            } 
         }
-        
-        
-        
+
         $id_tipo = strip_tags($_REQUEST['tipo']);
         $id_estado = strip_tags($_REQUEST['estado']);
         $id_estado++;
-        
-        
+
+
         $fechaActual = strip_tags($_REQUEST['fechaActual']);
         $fechaEntrega = strip_tags($_REQUEST['fechaEntrega']);
-        $codigoCompra = strip_tags($_REQUEST['codigoParaCompra']);
+        if(isset($_REQUEST['codigoParaCompra'])){
+            $codigoCompra = strip_tags($_REQUEST['codigoParaCompra']);
+        } else {
+            $codigoCompra = NULL;
+        }
         
-        $id_persona = 0;
-        if (empty($persona)) {
-            $id_persona = strip_tags($_REQUEST['cliente']);
-            $id_factura = $factura->nuevoFactura($id_persona, $id_tipo, $id_estado, $totales, $fechaActual, $fechaEntrega, 0, $codigoCompra);
-            
-            for ($i = 0; $i < $cont; $i++) {
-                $precioU = $todo[$i][1];
-                $cantidad = $todo[$i][0];
-                $subtotal = $todo[$i][2];
-                $id_producto = $todo[$i][3];
-                $pedido->crearPedido($id_producto, $id_factura, $precioU, $cantidad, $subtotal);
-            }
-        }else{
-            $var_persona = new Persona_Model();
-            $id_persona = $var_persona->nuevaPersona($persona[0], $persona[1], $persona[2], $persona[3], $persona[4]);
 
-            $id_factura = $factura->nuevoFactura($id_persona, $id_tipo, $id_estado, $totales, $fechaActual, $fechaEntrega, 0, $codigoCompra);
-            
-            for ($i = 0; $i < $cont; $i++) {
-                $precioU = $todo[$i][1];
-                $cantidad = $todo[$i][0];
-                $subtotal = $todo[$i][2];
-                $id_producto = $todo[$i][3];
-                $pedido->crearPedido($id_producto, $id_factura, $precioU, $cantidad, $subtotal);
+        if (filter_var($fechaActual, FILTER_VALIDATE_FLOAT) || filter_var($fechaEntrega, FILTER_VALIDATE_FLOAT)) {
+            die("<script>
+                alert('Ocurrio un error, no se pudieron cargar los datos deseados\nVuelva a intentarlo por favor');
+                  </script>");
+        } else {
+
+            $id_persona = 0;
+            if (empty($persona)) {
+                $id_persona = strip_tags($_REQUEST['cliente']);
+                $id_factura = $factura->nuevoFactura($id_persona, $id_tipo, $id_estado, $totales, $fechaActual, $fechaEntrega, 0, $codigoCompra);
+
+                for ($i = 0; $i < $cont; $i++) {
+                    $precioU = $todo[$i][1];
+                    $cantidad = $todo[$i][0];
+                    $subtotal = $todo[$i][2];
+                    $id_producto = $todo[$i][3];
+                    $pedido->crearPedido($id_producto, $id_factura, $precioU, $cantidad, $subtotal);
+                }
+            } else {
+                $var_persona = new Persona_Model();
+                $id_persona = $var_persona->nuevaPersona($persona[0], $persona[1], $persona[2], $persona[3], $persona[4]);
+
+                $id_factura = $factura->nuevoFactura($id_persona, $id_tipo, $id_estado, $totales, $fechaActual, $fechaEntrega, 0, $codigoCompra);
+
+                for ($i = 0; $i < $cont; $i++) {
+                    $precioU = $todo[$i][1];
+                    $cantidad = $todo[$i][0];
+                    $subtotal = $todo[$i][2];
+                    $id_producto = $todo[$i][3];
+                    $pedido->crearPedido($id_producto, $id_factura, $precioU, $cantidad, $subtotal);
+                }
             }
         }
-        $cadena = "Location: index.php?action=Factura::verFactura&id=".$id_factura;
-        return header($cadena);
+        $cadena = "Location: index.php?action=Factura::verFactura&id=". $id_factura;
+        if($ERROR==-1){            
+            return header("Location: templates/error.html");
+        } else {
+            return header($cadena);
+        }
+        
     }
     
     function modificarFactura() {

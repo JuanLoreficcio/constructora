@@ -2,6 +2,7 @@
 	include("inc.configuration.php");
 	include("recursos/_php/class.mysqli.php");
 	include("recursos/_php/utils.php");
+	include("recursos/_php/PHPExcel.php");
         include("recursos/_php/class.TemplatePower.inc.php");
         include("recursos/constantes.php");
 	

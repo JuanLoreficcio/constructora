@@ -1,9 +1,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     
-<form id="frmModificarPersona" name="frmModificarPersona" method=post>
+<form id="frmModificarPersona" name="frmModificarPersona" method=post onsubmit="return validacion()">
     <div class="form-group">
         <input type="hidden" name="action" value="Persona::modificarPersona">	
+        <input type="hidden" name="type" value="{var_type}">	
             
         <input type="hidden" id="id" value="{var_lis_cod}" name="id">
         <input type="hidden" id="fecha" value="{var_lis_fech}" name="fecha">
@@ -31,3 +32,39 @@
         </div>
     </div>
 </form>
+
+<script>
+
+    function validacion(){
+        var cadena="";
+        var valor1 = document.getElementById("nombre").value;
+        var valor2 = document.getElementById("direccion").value;
+        var valor3 = document.getElementById("mail").value;
+        var valor4 = document.getElementById("phone").value;
+        
+        
+        if( valor1 == null || valor1.length == 0 || /^\s+$/.test(valor1) || !isNaN(valor1)) {
+            cadena+= "Error: [CAMPO 'NOMBRE Y APELLIDO'] -> El nombre y apellido de la persona es invalido\n";
+            document.getElementById("nombre").focus();
+        }
+        if( valor2 == null || valor2.length == 0 || /^\s+$/.test(valor2)) {
+            cadena+= "Error: [CAMPO 'DIRECCION'] -> La direccion es invalida\n";
+            document.getElementById("direccion").focus();
+        }
+        if( valor3 == null || valor3.length == 0 || /^\s+$/.test(valor3) || !(/\w+([-+.']\w+)*@\w+([-.]\w+)*\./.test(valor3))) {
+            cadena+= "Error: [CAMPO 'CORREO ELECTRONICO'] -> El correo electronico es invalido\n";
+            document.getElementById("mail").focus();
+        }     
+        if( valor4 == null || valor4.length == 0 || /^\s+$/.test(valor4) || isNaN(valor4) ) {
+            cadena+= "Error: [CAMPO 'TELEFONO'] -> El número de teléfono es invalido\n";
+            document.getElementById("phone").focus();
+        }
+        
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }
+        
+        
+    }
+</script>

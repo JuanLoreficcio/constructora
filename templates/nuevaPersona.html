@@ -1,28 +1,43 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
-<form id="frmAltaProducto" name="frmAltaProducto" method=post>
+
+<style type="text/css" media="all">
+    <!--
+    h2{display: inline;}
+    -->
+</style>
+
+<form id="frmAltaProducto" name="frmAltaProducto" method=post onsubmit="return validacion()">
     <div class="form-group">
         <input type="hidden" name="action" value="Persona::nuevaPersona">
+        <table id="mytable" class="table">
+            <tr>
+                <th><label for="persona">Nombre Y Apellido</label></th>
+                <td><input type="text"  class="form-control" name="namePersona" id="namePersona"></td>
+            </tr>
+            <tr>
+                <th> <label for="direccion">Direccion</label></th>
+                <td><input type="text"  class="form-control" name="dirPersona" id="dirPersona"></td>
+            </tr>     
+            <tr>
+                <th><label for="correo">Correo Electronico</label></th>
+                <td><input type="text" class="form-control" name="mailPersona" id="mailPersona"></td>
+            </tr>     
+            <tr>
+                <th><label for="telefono">Telefono</label></th>
+                <td><input type="text" class="form-control"  name="telPersona" id="telPersona"></td>
+            </tr>     
+            <tr>
+                <th><label for="rol">Rol</label></th>
+                <td>
+                    <select class="form-control" name="rol">
+                        <option value="0">Proveedor</option> 
+                        <option value="1">Cliente</option> 
+                    </select>
+                </td>
+            </tr>     
+        </table>
         
-        <label for="persona">Nombre Y Apellido</label>
-        <input type="text"  class="form-control" name="namePersona">
-        <br>
-        <label for="direccion">Direccion</label>
-        <input type="text"  class="form-control" name="dirPersona">
-        <br>
-        <label for="correo">Correo Electronico</label>
-        <input type="text" class="form-control" name="mailPersona">
-        <br>
-        <label for="telefono">Telefono</label>
-        <input type="text" class="form-control"  name="telPersona">
-        <br>
-        <label for="rol">Rol</label>
-        <select class="form-control" name="rol">
-            <option value="0">Proveedor</option> 
-            <option value="1">Cliente</option> 
-        </select>
-        <br>
         <div align="right">
             <input class="btn btn-default" type="button" onclick="location.href='index.php?action=Persona::verPersonas&type={var_type}'" value=" Volver ">            <input type="submit" class="btn btn-success" value="Guardar">
         </div>
@@ -30,3 +45,39 @@
         
     </div>
 </form>
+
+<script>
+
+    function validacion(){
+        var cadena="";
+        var valor1 = document.getElementById("namePersona").value;
+        var valor2 = document.getElementById("dirPersona").value;
+        var valor3 = document.getElementById("mailPersona").value;
+        var valor4 = document.getElementById("telPersona").value;
+        
+        
+        if( valor1 == null || valor1.length == 0 || /^\s+$/.test(valor1) || !isNaN(valor1)) {
+            cadena+= "Error: [CAMPO 'NOMBRE Y APELLIDO'] -> El nombre y apellido de la persona es invalido\n";
+            document.getElementById("namePersona").focus();
+        }
+        if( valor2 == null || valor2.length == 0 || /^\s+$/.test(valor2)) {
+            cadena+= "Error: [CAMPO 'DIRECCION'] -> La direccion es invalida\n";
+            document.getElementById("dirPersona").focus();
+        }
+        if( valor3 == null || valor3.length == 0 || /^\s+$/.test(valor3) || !(/\w+([-+.']\w+)*@\w+([-.]\w+)*\./.test(valor3))) {
+            cadena+= "Error: [CAMPO 'CORREO ELECTRONICO'] -> El correo electronico es invalido\n";
+            document.getElementById("mailPersona").focus();
+        }     
+        if( valor4 == null || valor4.length == 0 || /^\s+$/.test(valor4) || isNaN(valor4) ) {
+            cadena+= "Error: [CAMPO 'TELEFONO'] -> El número de teléfono es invalido\n";
+            document.getElementById("telPersona").focus();
+        }
+        
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }
+        
+        
+    }
+</script>

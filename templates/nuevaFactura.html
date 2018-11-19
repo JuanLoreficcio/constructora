@@ -5,6 +5,7 @@
     <!--
     h2{display: inline;}
     -->
+
 </style>
 
 <form id="frmAltaProducto" name="frmAltaProducto" method=post>
@@ -13,43 +14,59 @@
         <h2 for="persona">Numero de pedido: </h2> <h2>{nro_pedido}</h2>
         <br><br><br>
         <div class="input-group-addon">
-                <label for="persona">Fecha:</label>
-                <input id="fechaActual" name="fechaActual" class="form-control" type="text" value="{var_fecha}">
-                <label for="persona">Fecha de entrega:</label>
-                <input id="fechaEntrega" name="fechaEntrega" class="form-control" type="text" value="{var_fecha_entrega}">
-
+        <table class="table">             
+            <tr>
+                <th><label for="persona">Fecha:</label></th>
+                <td><input id="fechaActual" name="fechaActual" class="form-control" type="text" value="{var_fecha}"></td>
+            </tr>
+            <tr>
+                <th><label for="persona">Fecha de entrega:</label></th>
+                <td><input id="fechaEntrega" name="fechaEntrega" class="form-control" type="text" value="{var_fecha_entrega}"></td>
+            </tr>
+        </table>
         </div>
-        <br><br>
-         <div class="input-group">
-            {tituloParaTemplate}
-            {codigoParaCompra}
-         </div>
-        <br><br><br>
-        <label for="persona">Destinatario</label>
-        <select class="form-control" id="cliente" name="cliente">
-            <!-- START BLOCK : block_cliente-->        
-            <option value="{idCliente}">{var_cliente}</option>    
-            <!-- END BLOCK : block_cliente-->        
-        </select>
+        
 
+        <table id="mytable" class="table">
+            <tr>
+                <th>{tituloParaTemplate}</th>
+                <td>{codigoParaCompra}</td>
+            </tr>
+            <tr>
+                <th><label for="persona">Destinatario</label></th>
+                <td>
+                    <select class="form-control" id="cliente" name="cliente">
+                        <!-- START BLOCK : block_cliente-->        
+                        <option value="{idCliente}">{var_cliente}</option>    
+                        <!-- END BLOCK : block_cliente-->        
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="tipoAlpedo">Tipo Pedido</label></th>
+                <td><select class="form-control" name="tipoAlpedo" readonly="readonly">
+                        <!-- START BLOCK : block_tipo_pedido-->
+                        <option value="{idTipo}" {fijo}>{var_tipo}</option>
+                        <!-- END BLOCK : block_tipo_pedido-->
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="estado">Estado Pedido</label></th>
+                <td><select class="form-control" name="estado">
+                        <option value="0">Presupuestado</option>  
+                        <option value="1">Confirmado</option> 
+                        <option value="2">Entregado</option> 
+                        <option value="3">Pagado</option> 
+                    </select>
+                </td>
+            </tr>
+        </table>
 
-
-        <label for="tipoAlpedo">Tipo Pedido</label>
-        <select class="form-control" name="tipoAlpedo" readonly="readonly">
-            <!-- START BLOCK : block_tipo_pedido-->
-            <option value="{idTipo}" {fijo}>{var_tipo}</option>
-            <!-- END BLOCK : block_tipo_pedido-->
-        </select>
         <input type="hidden" name="tipo" value="{idTipoPosta}">
 
-        <label for="estado">Estado Pedido</label>
-        <select class="form-control" name="estado">
-            <option value="0">Presupuestado</option>  
-            <option value="1">Confirmado</option> 
-            <option value="2">Entregado</option> 
-            <option value="3">Pagado</option> 
-        </select>
-        <br><br>
+
+        <br>
         <table  id="mytable" class="table table-bordered table-hover ">
             <tr>
                 <th>Seleccionar</th>
@@ -61,7 +78,7 @@
             </tr>
             <!-- START BLOCK : block_productos-->
             <tr>
-                <td align="center"><input type="checkbox" id="{idProducto}" name="{idProducto}" value="{valueCheck}" onclick="destildarCampos(this.value,{idProducto});"></td>
+                <td align="center"><input type="checkbox" id="{idProducto}" name="{idProducto}" value="{valueCheck}" onclick="destildarCampos(this.value, {idProducto});"></td>
                 <td align="center">{var_producto}</td>
                 <td align="center"><input class="form-control" type="text" id="{precioProducto}" name="{precioProducto}" value="{precioProductoValor}"disabled=true></td>
                 <td align="center"><input class="form-control" type="text" id="{cantidadProducto}" name="{cantidadProducto}" value="{cantidadProductoValor}" disabled=true onchange="calcularTotal('{idProducto}');"></td>
@@ -175,11 +192,11 @@
     function hola() {
         document.forms["frmAltaProducto"].submit();
     }
-    
+
     var precio;
     var idProducto;
     var nombreProducto;
-   
+
 
 
     var dataPersona = [];
@@ -191,18 +208,35 @@
 
     $("#adicionarPersona").click(function (event) {
         namePersona = document.getElementById("nombre").value;
-        dataPersona.push(namePersona);
         addressPersona = document.getElementById("direccion").value;
-        dataPersona.push(addressPersona);
         mailPersona = document.getElementById("mail").value;
-        dataPersona.push(mailPersona);
         phonePersona = document.getElementById("telefono").value;
-        dataPersona.push(phonePersona);
         rolPersona = document.getElementById("rol").value;
-        dataPersona.push(rolPersona);
-
-        $("#modalFormPerson").modal("hide");
-
+        var cadena="";
+        if( namePersona == null || namePersona.length == 0 || /^\s+$/.test(namePersona) || !isNaN(namePersona)) {
+            cadena+= "Error: [CAMPO 'NOMBRE Y APELLIDO'] -> El nombre y apellido de la persona es invalido\n";
+        }
+        if( addressPersona == null || addressPersona.length == 0 || /^\s+$/.test(addressPersona)) {
+            cadena+= "Error: [CAMPO 'DIRECCION'] -> La direccion es invalida\n";
+        }
+        if( mailPersona == null || mailPersona.length == 0 || /^\s+$/.test(mailPersona) || !(/\w+([-+.']\w+)*@\w+([-.]\w+)*\./.test(mailPersona))) {
+            cadena+= "Error: [CAMPO 'CORREO ELECTRONICO'] -> El correo electronico es invalido\n";
+        } 
+        if( phonePersona == null || phonePersona.length == 0 || /^\s+$/.test(phonePersona) || isNaN(phonePersona) ) {
+            cadena+= "Error: [CAMPO 'TELEFONO'] -> El número de teléfono es invalido\n";
+        }
+        
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }else{
+            dataPersona.push(namePersona);
+            dataPersona.push(addressPersona);       
+            dataPersona.push(mailPersona);        
+            dataPersona.push(phonePersona);
+            dataPersona.push(rolPersona);
+            $("#modalFormPerson").modal("hide");
+        }   
 
         var x = document.getElementById("cliente");
         var option = document.createElement("option");
@@ -212,45 +246,88 @@
 
         document.ready = document.getElementById("cliente").value = '-1';
     });
-    
-    function destildarCampos(V,idProducto){
-        var cantidadId="cantidadId-"+idProducto;
-        var precioId="precioId-"+idProducto;
-        if(V=="no"){
-            document.getElementById(idProducto).value="yes";
-            document.getElementById(cantidadId).disabled=false;
-            document.getElementById(precioId).disabled=false;
-        }else{
-            document.getElementById(idProducto).value="no";
-            document.getElementById(cantidadId).disabled=true;
-            document.getElementById(precioId).disabled=true;
+
+    function destildarCampos(V, idProducto) {
+        var cantidadId = "cantidadId-" + idProducto;
+        var precioId = "precioId-" + idProducto;
+        if (V == "no") {
+            document.getElementById(idProducto).value = "yes";
+            document.getElementById(cantidadId).disabled = false;
+            document.getElementById(precioId).disabled = false;
+        } else {
+            document.getElementById(idProducto).value = "no";
+            document.getElementById(cantidadId).disabled = true;
+            document.getElementById(precioId).disabled = true;
         }
     }
-    
-    function calcularTotal(idProducto,form){
-         var cantidadId="cantidadId-"+idProducto;
-         var precioId="precioId-"+idProducto;
-         var totalId="totalId-"+idProducto;
-         var cantidad = document.getElementById(cantidadId).value;
-         var precio =document.getElementById(precioId).value;
-         var operacion = cantidad*precio;
-         document.getElementById(totalId).value=operacion;
-         var totalIds="totalIds-"+idProducto;
+
+    function calcularTotal(idProducto, form) {
+        var cadena="";
+        var cantidadId = "cantidadId-" + idProducto;
+        var precioId = "precioId-" + idProducto;
+        var totalId = "totalId-" + idProducto;
+        
+        var cantidad = document.getElementById(cantidadId).value;
+        var precio = document.getElementById(precioId).value;
+        
+        if( cantidad == null || cantidad.length == 0 || /^\s+$/.test(cantidad) || isNaN(cantidad) ) {
+            cadena+= "Error: [CAMPO 'CANTIDAD'] -> cantidad invalida\n";
+            document.getElementById(cantidadId).focus();
+        }
+        if( precio == null || precio.length == 0 || /^\s+$/.test(precio) || isNaN(precio) ) {
+            cadena+= "Error: [CAMPO 'PRECIO'] -> precio invalido\n";
+            document.getElementById(precioId).focus();
+        }
+        
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }else{
+            var operacion = cantidad * precio;
+        document.getElementById(totalId).value = operacion;
+            var totalIds = "totalIds-" + idProducto;
         input = document.createElement('input');
         input.type = 'hidden';
         input.name = totalIds;
         input.value = operacion;
         frmAltaProducto.appendChild(input);
+        }
+        
     }
 
-  
+
 
     function onSend(form) {
-        inputPersona = document.createElement('input');
-        inputPersona.type = 'hidden';
-        inputPersona.name = 'dataPersona';
-        inputPersona.value = JSON.stringify(dataPersona);
-        form.appendChild(inputPersona);
-        form.submit();
+        if (validacion()) {
+            inputPersona = document.createElement('input');
+            inputPersona.type = 'hidden';
+            inputPersona.name = 'dataPersona';
+            inputPersona.value = JSON.stringify(dataPersona);
+            form.appendChild(inputPersona);
+            form.submit();
+        }
+    }
+    
+    function validacion(){
+        var cadena="";
+        var valor1 = document.getElementById("fechaActual").value; //fecha
+        var valor2 = document.getElementById("fechaEntrega").value; //fecha
+
+        
+        if( valor1 == null || valor1.length == 0 || /^\s+$/.test(valor1) || !isNaN(valor1)) {
+            cadena+= "Error: [CAMPO 'FECHA'] -> La fecha ingresada es invalida\n";
+            document.getElementById("fechaActual").focus();
+        }
+        if( valor2 == null || valor2.length == 0 || /^\s+$/.test(valor2) || !isNaN(valor2) ) {
+            cadena+= "Error: [CAMPO 'FECHA DE ENTREGA'] -> La fecha ingresada es invalida\n";
+            document.getElementById("fechaEntrega").focus();
+        }
+        
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }else{
+            return true;
+        }
     }
 </script>

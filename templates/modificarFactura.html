@@ -160,7 +160,7 @@
         }
     }
     
-    function calcularTotal(idProducto,form){
+    /*function calcularTotal(idProducto,form){
          var cantidadId="cantidadId-"+idProducto;
          var precioId="precioId-"+idProducto;
          var totalId="totalId-"+idProducto;
@@ -174,11 +174,45 @@
         input.name = totalIds;
         input.value = operacion;
         frmAltaProducto.appendChild(input);
+    }*/
+    function calcularTotal(idProducto, form) {
+        var cadena="";
+        var cantidadId = "cantidadId-" + idProducto;
+        var precioId = "precioId-" + idProducto;
+        var totalId = "totalId-" + idProducto;
+        
+        var cantidad = document.getElementById(cantidadId).value;
+        var precio = document.getElementById(precioId).value;
+        
+        if( cantidad == null || cantidad.length == 0 || /^\s+$/.test(cantidad) || isNaN(cantidad) ) {
+            cadena+= "Error: [CAMPO 'CANTIDAD'] -> cantidad invalida\n";
+            document.getElementById(cantidadId).focus();
+        }
+        if( precio == null || precio.length == 0 || /^\s+$/.test(precio) || isNaN(precio) ) {
+            cadena+= "Error: [CAMPO 'PRECIO'] -> precio invalido\n";
+            document.getElementById(precioId).focus();
+        }
+        
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }else{
+            var operacion = cantidad * precio;
+        document.getElementById(totalId).value = operacion;
+            var totalIds = "totalIds-" + idProducto;
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = totalIds;
+        input.value = operacion;
+        frmAltaProducto.appendChild(input);
+        }
+        
     }
 
   
 
     function onSend(form,a) {
+        if(validacion()){
         var tabla=[];
         
 
@@ -215,5 +249,31 @@
         
         form.appendChild(inputTabla);
         form.submit();
+    }else{
+        return false;
+    }
+    }
+    
+    function validacion(){
+        var cadena="";
+        var valor1 = document.getElementById("fechaActual").value; //fecha
+        var valor2 = document.getElementById("fechaEntrega").value; //fecha
+
+        
+        if( valor1 == null || valor1.length == 0 || /^\s+$/.test(valor1) || !isNaN(valor1)) {
+            cadena+= "Error: [CAMPO 'FECHA'] -> La fecha ingresada es invalida\n";
+            document.getElementById("fechaActual").focus();
+        }
+        if( valor2 == null || valor2.length == 0 || /^\s+$/.test(valor2) || !isNaN(valor2) ) {
+            cadena+= "Error: [CAMPO 'FECHA DE ENTREGA'] -> La fecha ingresada es invalida\n";
+            document.getElementById("fechaEntrega").focus();
+        }
+        
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }else{
+            return true;
+        }
     }
 </script>

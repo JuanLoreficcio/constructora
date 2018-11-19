@@ -4,29 +4,44 @@ class Producto_Controller{
         $nameProducto = strip_tags($_REQUEST ["nameProducto"]);
         $priceProducto = strip_tags($_REQUEST ["priceProducto"]);
         $var_producto = new Producto_model();
-        if(is_string($nameProducto)){
-            $var_producto->nuevoProducto($nameProducto, $priceProducto);
-            return $this->verProductos();
+        if(is_string($nameProducto) && filter_var($priceProducto, FILTER_VALIDATE_FLOAT)){
+            $var_producto->nuevoProducto($nameProducto, $priceProducto);    
         } else {
-            echo  "no mono";
+            echo "<script>
+                alert('Ocurrio un error, no se pudieron cargar los datos deseados\nVuelva a intentarlo por favor');
+                  </script>";
+            return false;
         }
-        
+        return $this->verProductos();
     }
     
     function modificarProducto (){
         $id = strip_tags($_REQUEST ["id"]);
         $nameProducto = strip_tags($_REQUEST["nombre"]);
-         var_dump($nameProducto);
         $priceProducto = strip_tags($_REQUEST["price"]);
-        $var_producto = new Producto_model();
-        $var_producto->modificarProducto($id, $nameProducto, $priceProducto);
+        if(is_string($nameProducto) && filter_var($priceProducto, FILTER_VALIDATE_FLOAT)){
+            $var_producto = new Producto_model();
+            $var_producto->modificarProducto($id, $nameProducto, $priceProducto);
+        }else{
+            echo "<script>
+                alert('Ocurrio un error, no se pudieron cargar los datos deseados\nVuelva a intentarlo por favor');
+                  </script>";
+            return false;
+        }
+        
         return $this->verProductos();
     }
   
     function eliminarProducto(){
         $idProducto = strip_tags($_REQUEST ["id"]);
         $var_producto = new Producto_model();
-        $var_producto->eliminarProducto($idProducto);
+        $respuesta = $var_producto->eliminarProducto($idProducto);
+        if($respuesta==FALSE){
+            echo "<script>
+                alert('El producto deseado no puede eliminarse, posee documentos relacionados');
+                </script>";
+            exit();
+        } 
         return $this->verProductos();
     }
 

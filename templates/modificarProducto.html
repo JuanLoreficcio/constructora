@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     
-<form id="frmModificarProducto" name="frmModificarProducto" method=post>
+<form id="frmModificarProducto" name="frmModificarProducto" method=post onsubmit="return validacion()">
     <div class="form-group">
         <input type="hidden" name="action" value="Producto::modificarProducto">
         <!-- START BLOCK : block_modificar_productos -->
@@ -20,3 +20,27 @@
     </div>    
 </form>
     
+
+<script>
+
+    function validacion(){
+        var cadena="";
+        var valor1 = document.getElementById("nombre").value;
+        var valor2 = document.getElementById("price").value;
+        if( valor1 == null || valor1.length == 0 || /^\s+$/.test(valor1) || !isNaN(valor1)) {
+            cadena+= "Error: [CAMPO 'PRODUCTO'] -> El nombre del producto es invalido\n";
+            document.getElementById("nombre").focus();
+        }
+        if( valor2 == null || valor2.length == 0 || /^\s+$/.test(valor2) || isNaN(valor2) ) {
+            cadena+= "Error: [CAMPO 'PRECIO UNITARIO'] -> El precio del producto es invalido\n";
+            document.getElementById("price").focus();
+        }
+        
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }
+        
+        
+    }
+</script>

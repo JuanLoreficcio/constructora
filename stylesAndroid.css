@@ -17,6 +17,11 @@ a img{
   color: #fff;
 }
 
+  
+  .errorInput{
+    border-color:  red;
+   }
+   
 .content{
   margin-top: 100px;
   margin-bottom: 100px;
@@ -511,4 +516,5 @@ a img{
   .android-footer .mdl-mega-footer--bottom-section {
     display: none;
   }
+
 }

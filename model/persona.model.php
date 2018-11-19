@@ -16,7 +16,7 @@ class Persona_Model{
   function eliminarPersona($id_persona){
       global $db;
      $sql = "DELETE FROM `persona` WHERE `persona`.`id_persona` = '$id_persona';";
-     $db->delete($sql);
+     return $db->delete($sql);
   }
   
   function verCuentaFactura($id_persona){
@@ -145,6 +145,62 @@ class Persona_Model{
               . "AND persona.rol = '$rol'  "
               . "ORDER BY createDate;";
       $result = $db->query($sql);
+      if($result){
+          return $result;
+      }else{ 
+          return false;
+      }
+  }
+  
+  function exportarDatos($id_persona,$mesDesde,$mesHasta,$añoDesde,$añoHasta){
+      global $db;
+      $sql="CREATE TEMPORARY TABLE temporal( fecha DATE NOT NULL, codigo int NOT NULL, precio float NOT NULL, tipo varchar(50) NOT NULL, persona varchar(50) NOT NULL, codigoCompra varchar(50) NULL, detalle varchar(50) NULL );";
+      $result = $db->query($sql);
+      
+            
+      $sql="CREATE TEMPORARY TABLE temporal1( fecha DATE NOT NULL, codigo int NOT NULL, precio float NOT NULL, tipo varchar(50) NOT NULL, persona varchar(50) NOT NULL, codigoCompra varchar(50) NULL, detalle varchar(50) NULL );";
+      $result = $db->query($sql);
+      
+      $sql="CREATE TEMPORARY TABLE temporal2( fecha DATE NOT NULL, codigo int NOT NULL, precio float NOT NULL, tipo varchar(50) NOT NULL, persona varchar(50) NOT NULL, codigoCompra varchar(50) NULL, detalle varchar(50) NULL );";
+      $result = $db->query($sql);
+      
+      $sql="INSERT INTO temporal1 SELECT f.fecha as feha_factura,f.id_factura,f.total,'factura',p.name,f.codiogoCompra,NULL "
+              . "FROM persona p, factura f "
+              . "WHERE p.id_persona = '$id_persona' "
+              . "AND p.id_persona = f.id_persona;";
+      $result = $db->query($sql);
+
+      $sql="INSERT INTO temporal2 SELECT c.fecha as feha_cobro,c.id_cobro,c.monto,'cobro',p.name,NULL,c.detalle "
+              . "FROM persona p, cobros c "
+              . "WHERE p.id_persona = '$id_persona' "
+              . "AND p.id_persona = c.id_persona;";
+      $result = $db->query($sql);
+      
+      $sql="INSERT INTO temporal SELECT * FROM temporal1 UNION ALL SELECT * FROM temporal2 ORDER BY fecha;";
+      $result = $db->query($sql);
+      
+      $sql="SELECT * FROM temporal WHERE MONTH(fecha) BETWEEN '$mesDesde' AND '$mesHasta' AND YEAR(fecha) BETWEEN '$añoDesde' AND '$añoHasta' ORDER BY fecha;";
+      $result = $db->query($sql);
+      
+      if($result){
+          return $result;
+      }else{ 
+          return false;
+      }
+  }
+  
+  function eliminarTemporales(){
+      global $db;
+      $sql="DROP TABLE temporal1";
+      $db->query($sql);
+      
+      
+      $sql="DROP TABLE temporal2";      
+      $db->query($sql);
+      
+      $sql="DROP TABLE temporal";      
+      $result=$db->query($sql);
+      
       if($result){
           return $result;
       }else{ 

@@ -144,12 +144,29 @@
     }
     
     function onSend(form){
-        input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'data';
-        input.value = JSON.stringify(data);
-        form.appendChild(input);
-        form.submit();
+        var cadena="";
+        var valor1 = document.getElementById("monto").value;
+        var valor2 = document.getElementById("fecha").value;
+        if( valor1 == null || valor1.length == 0 || /^\s+$/.test(valor1) || !isNaN(valor1)) {
+            cadena+= "Error: [CAMPO 'FECHA'] -> Fecha invalida\n";
+            document.getElementById("fecha").focus();
+        }
+        if( valor2 == null || valor2.length == 0 || /^\s+$/.test(valor2) || isNaN(valor2)) {
+            cadena+= "Error: [CAMPO 'MONTO'] -> El monto ingresado es invalido\n";
+            document.getElementById("monto").focus();
+        }
+        
+        if(cadena!=""){
+            alert(cadena);
+            return false;
+        }else{
+           input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data';
+            input.value = JSON.stringify(data);
+            form.appendChild(input);
+            form.submit(); 
+        }
     }
     
     

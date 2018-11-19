@@ -180,15 +180,19 @@
         });
     
     function onSend(){
-        var fecha=[mesDesde,mesHasta,añoDesde,añoHasta];
-        
-        inputTabla = document.createElement('input');
-        inputTabla.type = 'hidden';
-        inputTabla.name = 'tabla';
-        inputTabla.value = JSON.stringify(fecha);
-        
-        frmAltaExport.appendChild(inputTabla);
-        frmAltaExport.submit();
+            var fecha=[mesDesde,mesHasta,añoDesde,añoHasta];
+            inputTabla = document.createElement('input');
+            inputTabla.type = 'hidden';
+            inputTabla.name = 'tabla';
+            inputTabla.value = JSON.stringify(fecha);
+            
+            frmAltaExport.appendChild(inputTabla);
+            frmAltaExport.submit();
+            $("#modalFormExport").modal("hide");
+        document.ready = document.getElementById("mesDesde").value = "";
+        document.ready = document.getElementById("mesHasta").value = "";
+        document.ready = document.getElementById("añoDesde").value = "";
+        document.ready = document.getElementById("añoHasta").value = "";
     }
 </script>
 
