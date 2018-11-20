@@ -18,85 +18,101 @@ class Cobros_Controller {
     }
 
     function altaModificarCobro() {
-        $id_cobro = strip_tags($_REQUEST["id"]);
-        $cobro = new Cobros_Model();
-        $result = $cobro->verCobro($id_cobro);
-        $personas = new Persona_Model();
-        $tpl = new TemplatePower("templates/modificarCobro.html");
-        $tpl->prepare();
+        if ($_SESSION["conect"] == TRUE) {
+            $id_cobro = strip_tags($_REQUEST["id"]);
+            $cobro = new Cobros_Model();
+            $result = $cobro->verCobro($id_cobro);
+            $personas = new Persona_Model();
+            $tpl = new TemplatePower("templates/modificarCobro.html");
+            $tpl->prepare();
 
-        foreach ($result as $r) {
-            $tpl->assign("var_lis_cod", $r["id_cobro"]);
-            $persona = $personas->verPersona($r["id_persona"]);
-            foreach ($persona as $p) {
-                $namePersona = $p["name"];
+            foreach ($result as $r) {
+                $tpl->assign("var_lis_cod", $r["id_cobro"]);
+                $persona = $personas->verPersona($r["id_persona"]);
+                foreach ($persona as $p) {
+                    $namePersona = $p["name"];
+                }
+                $tpl->assign("apellidoNombre", $namePersona);
+                $tpl->assign("fecha", $r["fecha"]);
+                $tpl->assign("monto", $r["monto"]);
+                $tpl->assign("detalle", $r["detalle"]);
+                $tpl->assign("idPersona", $r["id_persona"]);
             }
-            $tpl->assign("apellidoNombre", $namePersona);
-            $tpl->assign("fecha", $r["fecha"]);
-            $tpl->assign("monto", $r["monto"]);
-            $tpl->assign("detalle", $r["detalle"]);
-            $tpl->assign("idPersona", $r["id_persona"]);
+            return $tpl->getOutputContent();
+        } else {
+            return header("Location: index.php");
         }
-        return $tpl->getOutputContent();
     }
 
     function modificarCobro() {
-        $id_cobro = strip_tags($_REQUEST["id"]);
-        $fecha = strip_tags($_REQUEST["fecha"]);
-        $monto = strip_tags($_REQUEST["monto"]);
-        $detalle = strip_tags($_REQUEST["detalle"]);
-        $id_persona = strip_tags($_REQUEST["idPersona"]);
+        if ($_SESSION["conect"] == TRUE) {
+            $id_cobro = strip_tags($_REQUEST["id"]);
+            $fecha = strip_tags($_REQUEST["fecha"]);
+            $monto = strip_tags($_REQUEST["monto"]);
+            $detalle = strip_tags($_REQUEST["detalle"]);
+            $id_persona = strip_tags($_REQUEST["idPersona"]);
 
-        if (filter_var($fecha, FILTER_VALIDATE_FLOAT) || !filter_var($monto, FILTER_VALIDATE_FLOAT) || !filter_var($id_persona, FILTER_VALIDATE_INT)) {
-            $dir = "index.php?action=Persona::verPersonaCuenta&id=" . $cobros[3];
-            echo "<script>
+            if (filter_var($fecha, FILTER_VALIDATE_FLOAT) || !filter_var($monto, FILTER_VALIDATE_FLOAT) || !filter_var($id_persona, FILTER_VALIDATE_INT)) {
+                $dir = "index.php?action=Persona::verPersonaCuenta&id=" . $cobros[3];
+                echo "<script>
                 alert('Ocurrio un error, no se pudieron cargar los datos deseados\nVuelva a intentarlo por favor');
                   </script>";
-        } else {
-            $cobro = new Cobros_Model();
-            $result = $cobro->modificarCobro($id_cobro, $fecha, $detalle, $monto, $id_persona);
-        }
+            } else {
+                $cobro = new Cobros_Model();
+                $result = $cobro->modificarCobro($id_cobro, $fecha, $detalle, $monto, $id_persona);
+            }
 
-        $cadena = "Location: index.php?action=Cobros::verCobro&id=" . $id_cobro;
-        return header($cadena);
+            $cadena = "Location: index.php?action=Cobros::verCobro&id=" . $id_cobro;
+            return header($cadena);
+        } else {
+            return header("Location: index.php");
+        }
     }
 
     function eliminarCobro() {
-        $id_cobro = strip_tags($_REQUEST["id"]);
-        $id_per = strip_tags($_REQUEST["per"]);
-        $cobro = new Cobros_Model();
-        $result = $cobro->eliminarCobro($id_cobro);
-        $row = $cobro->verCobro($id_cobro);
-        foreach ($row as $r) {
-            $id_persona = $r["id_persona"];
-        }
+        if ($_SESSION["conect"] == TRUE) {
+            $id_cobro = strip_tags($_REQUEST["id"]);
+            $id_per = strip_tags($_REQUEST["per"]);
+            $cobro = new Cobros_Model();
+            $result = $cobro->eliminarCobro($id_cobro);
+            $row = $cobro->verCobro($id_cobro);
+            foreach ($row as $r) {
+                $id_persona = $r["id_persona"];
+            }
 
-        $personas = new Persona_Controller();
-        $cadena = "Location: index.php?action=Persona::verPersonaCuenta&id=" . $id_per;
-        return header($cadena);
+            $personas = new Persona_Controller();
+            $cadena = "Location: index.php?action=Persona::verPersonaCuenta&id=" . $id_per;
+            return header($cadena);
+        } else {
+            return header("Location: index.php");
+        }
     }
 
     function verCobro() {
-        $id_cobro = strip_tags($_REQUEST["id"]);
-        $cobro = new Cobros_Model();
-        $result = $cobro->verCobro($id_cobro);
-        $personas = new Persona_Model();
-        $tpl = new TemplatePower("templates/detallePagoCobro.html");
-        $tpl->prepare();
+        if ($_SESSION["conect"] == TRUE) {
+            $id_cobro = strip_tags($_REQUEST["id"]);
+            $cobro = new Cobros_Model();
+            $result = $cobro->verCobro($id_cobro);
+            $personas = new Persona_Model();
+            $tpl = new TemplatePower("templates/detallePagoCobro.html");
+            $tpl->prepare();
 
-        foreach ($result as $r) {
-            $tpl->assign("var_lis_cod", $r["id_cobro"]);
-            $persona = $personas->verPersona($r["id_persona"]);
-            foreach ($persona as $p) {
-                $namePersona = $p["name"];
+            foreach ($result as $r) {
+                $tpl->assign("var_lis_cod", $r["id_cobro"]);
+                $persona = $personas->verPersona($r["id_persona"]);
+                foreach ($persona as $p) {
+                    $namePersona = $p["name"];
+                }
+                $tpl->assign("apellidoNombre", $namePersona);
+                $tpl->assign("fecha", $r["fecha"]);
+                $tpl->assign("monto", $r["monto"]);
+                $tpl->assign("detalle", $r["detalle"]);
+                $tpl->assign("idPersona", $r["id_persona"]);
             }
-            $tpl->assign("apellidoNombre", $namePersona);
-            $tpl->assign("fecha", $r["fecha"]);
-            $tpl->assign("monto", $r["monto"]);
-            $tpl->assign("detalle", $r["detalle"]);
-            $tpl->assign("idPersona", $r["id_persona"]);
+            return $tpl->getOutputContent();
+        } else {
+            return header("Location: index.php");
         }
-        return $tpl->getOutputContent();
     }
 
     function verCobro_date($date) {

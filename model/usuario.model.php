@@ -1,5 +1,4 @@
-<?php
-    
+<?php  
 class Usuario_Model{
     function nuevoUsuario($name,$password,$rol){
         global $db;
@@ -43,5 +42,16 @@ class Usuario_Model{
       }else{ 
           return false;
       }
+    }
+    
+    function validarUsuario($user,$pass,$rol){
+        global $db;
+        $sql = "SELECT * FROM `usuario` WHERE `name` = '$user' AND `password` = '$pass' AND `rol` = '$rol'";
+        $result = $db->query($sql);
+        if ($result) {
+            return $result;
+        } else {
+            return false;
+        }
     }
 }
