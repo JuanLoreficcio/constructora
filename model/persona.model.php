@@ -141,7 +141,7 @@ class Persona_Model{
   function listarPersonas($rol){
       global $db;
       $sql = "SELECT * FROM `persona` "
-              . "WHERE NOT EXISTS (SELECT * FROM factura WHERE factura.id_factura=persona.id_persona) "
+              . "WHERE NOT EXISTS (SELECT * FROM factura WHERE factura.id_persona=persona.id_persona) "
               . "AND persona.rol = '$rol'  "
               . "ORDER BY createDate;";
       $result = $db->query($sql);

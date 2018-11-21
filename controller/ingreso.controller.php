@@ -11,9 +11,9 @@ class Ingreso_Controller {
     }
 
     function iniciarSesion() {
-        $user = $_POST["username"];
-        $pass = $_POST["password"];
-        
+        $userF = strip_tags($_POST["username"]);
+        $pass = strip_tags($_POST["password"]);
+        $user=strtolower($userF); 
         $var_user = new Usuario_Model();
         $usuario = $var_user->validarUsuario($user, $pass, "admin");
         $fila =  mysqli_num_rows($usuario);

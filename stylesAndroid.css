@@ -23,11 +23,12 @@ a img{
    }
    
 .content{
-  margin-top: 100px;
-  margin-bottom: 100px;
-  margin-left: 250px;
-  margin-right: 100px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
+
 .android-search-box .mdl-textfield__input {
   color: rgba(0, 0, 0, 0.87);
 }
@@ -246,7 +247,8 @@ a img{
 .android-phone {
   display: inline-block;
   width: 64px;
-  margin-right: 48px;
+  /*margin-right: 48px;*/
+  margin-right: auto;
 }
 
   .android-phone .android-screen-image {
@@ -337,11 +339,13 @@ a img{
   max-width: 500px;
   margin-left: auto;
   margin-right: auto;
-  padding: 80px 16px 0 16px;
+  /*padding: 80px 16px 0 16px;*/
+  padding: auto;
 }
 
   .android-customized-section-text p {
-    padding-top: 16px;
+    /*padding-top: 16px;*/
+    padding-top: auto;
   }
 
 .android-customized-section-image {
@@ -351,15 +355,18 @@ a img{
 }
 
 .android-more-section {
-  padding: 80px 0;
+  /*padding: 80px 0;*/
+  padding: auto;
   max-width: 1044px;
   margin-left: auto;
   margin-right: auto;
 }
 
   .android-more-section .android-section-title {
-    margin-left: 12px;
-    padding-bottom: 24px;
+    /*margin-left: 12px;*/
+    margin-left: auto;
+    /*padding-bottom: 24px;*/
+    padding-bottom: auto;
   }
 
 .android-card-container {
@@ -403,10 +410,12 @@ a img{
 .android-footer {
   background-color: #fafafa;
   position: relative;
-  margin-top: 5px;
+/*  margin-top: 5px;
   margin-bottom: 10px;
   margin-left: 0px;
-  margin-right: 0px;
+  margin-right: 0px;*/
+  margin: auto;
+
 }
 
   .android-footer a:hover {
