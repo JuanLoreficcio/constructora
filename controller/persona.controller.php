@@ -3,17 +3,20 @@
 class Persona_Controller {
 
     function nuevaPersona() {
-        if ($_SESSION["conect"] == TRUE) {
+        
             $name = strip_tags($_REQUEST["namePersona"]);
             $adress = strip_tags($_REQUEST["dirPersona"]);
             $mail = strip_tags($_REQUEST["mailPersona"]);
             $phone = strip_tags($_REQUEST["telPersona"]);
             $rol = strip_tags($_REQUEST["rol"]);
-
+            
             if (filter_var($name, FILTER_VALIDATE_FLOAT) || filter_var($mail, FILTER_VALIDATE_EMAIL) || !filter_var($phone, FILTER_VALIDATE_INT) || !filter_var($rol, FILTER_VALIDATE_INT)) {
-                echo "<script>
-                alert('Ocurrio un error, no se pudieron cargar los datos deseados\nVuelva a intentarlo por favor');
-                  </script>";
+                if($rol!=0){
+                    die("Error al cargar");
+                } else {
+                    $var_persona = new Persona_Model;
+                    $respuesta = $var_persona->nuevaPersona($name, $adress, $mail, $phone, $rol);
+                }
             } else {
                 $var_persona = new Persona_Model;
                 $respuesta = $var_persona->nuevaPersona($name, $adress, $mail, $phone, $rol);
@@ -25,9 +28,6 @@ class Persona_Controller {
                 $cadena = "Location: index.php?action=Persona::verPersonas&type=proveedor";
             }
             return header($cadena);
-        } else {
-            return header("Location: index.php");
-        }
     }
 
     function modificarPersona() {
